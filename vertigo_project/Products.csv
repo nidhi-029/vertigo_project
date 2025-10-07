@@ -1,0 +1,157 @@
+Product ID,Product,Category,Brand,Cost (Rupees)
+PROD-001,Milk,Dairy,Amul,50
+PROD-002,Bread,Bakery,Britannia,30
+PROD-003,Rice,Staples,Kohinoor,80
+PROD-004,Sugar,Staples,Tata,40
+PROD-005,Apple,Fruits,Washington,10
+PROD-006,Tomato,Vegetables,Local Farm,5
+PROD-007,Chicken,Meat,Tyson,150
+PROD-008,Eggs,Dairy,Brown Gold,60
+PROD-009,Toothpaste,Personal Care,Colgate,20
+PROD-010,Shampoo,Personal Care,Pantene,100
+PROD-011,Soap,Personal Care,Dove,30
+PROD-012,Potato Chips,Snacks,Lay's,20
+PROD-013,Orange Juice,Beverages,Tropicana,70
+PROD-014,Yogurt,Dairy,Danone,40
+PROD-015,Cheese,Dairy,Kraft,80
+PROD-016,Chocolate Bar,Snacks,Hershey's,25
+PROD-017,Toothbrush,Personal Care,Oral-B,15
+PROD-018,Cereal,Breakfast,Kellogg's,60
+PROD-019,Cooking Oil,Cooking,Fortune,120
+PROD-020,Dish Soap,Household,Vim,10
+PROD-021,Ice Cream,Dessert,Baskin-Robbins,100
+PROD-022,Biscuits,Snacks,Parle,15
+PROD-023,Bananas,Fruits,Chiquita,20
+PROD-024,Pasta,Staples,Barilla,40
+PROD-025,Hand Sanitizer,Personal Care,Dettol,50
+PROD-026,Tissue Paper,Household,Kleenex,10
+PROD-027,Yoghurt Drink,Beverages,Yakult,30
+PROD-028,Orange,Fruits,Sunkist,15
+PROD-029,Peanut Butter,Spreads,Skippy,70
+PROD-030,Coffee,Beverages,Starbucks,150
+PROD-031,Tea Bags,Beverages,Lipton,40
+PROD-032,Potato,Vegetables,Russet,5
+PROD-033,Onion,Vegetables,Sweet,10
+PROD-034,Carrots,Vegetables,Baby,15
+PROD-035,Lemon,Fruits,Fresh,5
+PROD-036,Milk Chocolate,Snacks,Cadbury,20
+PROD-037,Laundry Detergent,Household,Tide,30
+PROD-038,Ketchup,Condiments,Heinz,25
+PROD-039,Cucumber,Vegetables,English,10
+PROD-040,Mayonnaise,Condiments,Hellmann's,35
+PROD-041,Salt,Condiments,Tata,5
+PROD-042,Pepper,Condiments,McCormick,10
+PROD-043,Watermelon,Fruits,Whole,30
+PROD-044,Yogurt Parfait,Dessert,Yoplait,40
+PROD-045,Baby Food,Baby Care,Gerber,50
+PROD-046,Green Beans,Vegetables,Fresh,10
+PROD-047,Honey,Spreads,Dabur,25
+PROD-048,Red Wine,Beverages,Yellow,200
+PROD-049,White Bread,Bakery,Wonder,25
+PROD-050,Facial Tissues,Household,Kleenex,15
+PROD-051,Chips,Snacks,Pringles,20
+PROD-052,Canned Soup,Canned Goods,Campbell's,30
+PROD-053,Orange Soda,Beverages,Fanta,15
+PROD-054,Butter,Dairy,Land O'Lakes,50
+PROD-055,Bagels,Bakery,Thomas',20
+PROD-056,Quinoa,Staples,Ancient Harvest,70
+PROD-057,Honeydew Melon,Fruits,Del Monte,25
+PROD-058,Avocado,Fruits,Hass,30
+PROD-059,Ground Beef,Meat,Angus Beef,120
+PROD-060,Salmon Fillet,Seafood,Wild-Caught,180
+PROD-061,Greek Yogurt,Dairy,FAGE,40
+PROD-062,Facial Cleanser,Personal Care,Neutrogena,25
+PROD-063,Conditioner,Personal Care,Herbal Essences,40
+PROD-064,Hand Soap,Personal Care,Softsoap,10
+PROD-065,Popcorn,Snacks,Orville Redenbacher's,20
+PROD-066,Lemonade,Beverages,Minute Maid,30
+PROD-067,Cottage Cheese,Dairy,Breakstone's,35
+PROD-068,Mozzarella Cheese,Dairy,Galbani,50
+PROD-069,Almonds,Nuts,Blue Diamond,100
+PROD-070,Mouthwash,Personal Care,Listerine,25
+PROD-071,Pancake Mix,Breakfast,Aunt Jemima,40
+PROD-072,Vinegar,Cooking,Bragg,15
+PROD-073,All-Purpose Cleaner,Household,Lysol,20
+PROD-074,Sorbet,Dessert,Talenti,30
+PROD-075,Pretzels,Snacks,Snyder's,15
+PROD-076,Pineapple,Fruits,Dole,25
+PROD-077,Instant Noodles,Snacks,Maggi,10
+PROD-078,Sunflower Oil,Cooking,Borges,70
+PROD-079,Trash Bags,Household,Glad,20
+PROD-080,Iced Tea,Beverages,Arizona,40
+PROD-081,Mango,Fruits,Alphonso,30
+PROD-082,Nutella,Spreads,Ferrero,60
+PROD-083,Green Tea,Beverages,Bigelow,20
+PROD-084,Spinach,Vegetables,Baby,10
+PROD-085,Bell Pepper,Vegetables,Red,15
+PROD-086,Cabbage,Vegetables,Green,10
+PROD-087,Lime,Fruits,Persian,5
+PROD-088,Dark Chocolate,Snacks,Lindt,30
+PROD-089,Fabric Softener,Household,Downy,15
+PROD-090,Mustard,Condiments,French's,10
+PROD-091,Zucchini,Vegetables,Italian,10
+PROD-092,BBQ Sauce,Condiments,Sweet Baby Ray's,25
+PROD-093,Cinnamon,Spices,McCormick,10
+PROD-094,Nut Mix,Nuts,Planters,40
+PROD-095,Sparkling Water,Beverages,LaCroix,15
+PROD-096,Cereal Bars,Snacks,Nature Valley,20
+PROD-097,Canned Corn,Canned Goods,Del Monte,15
+PROD-098,Lemon Lime Soda,Beverages,Sprite,10
+PROD-099,Olive Oil,Cooking,Bertolli,80
+PROD-100,Raspberries,Fruits,Driscoll's,40
+PROD-101,Baby Wipes,Baby Care,Huggies,30
+PROD-102,Brussels Sprouts,Vegetables,Fresh,20
+PROD-103,Maple Syrup,Breakfast,Aunt Jemima,25
+PROD-104,Red Pepper,Spices,McCormick,10
+PROD-105,Pine Nuts,Nuts,Kirkland Signature,60
+PROD-106,Iced Coffee,Beverages,Dunkin',50
+PROD-107,Baby Wipes,Baby Care,Huggies,75
+PROD-108,Brussels Sprouts,Vegetables,Fresh,30
+PROD-109,Maple Syrup,Breakfast,Aunt Jemima,150
+PROD-110,Red Pepper,Spices,McCormick,20
+PROD-111,Pine Nuts,Nuts,Kirkland Signature,180
+PROD-112,Iced Coffee,Beverages,Dunkin',60
+PROD-113,Potato,Vegetables,Russet,10
+PROD-114,Onion,Vegetables,Sweet,5
+PROD-115,Carrots,Vegetables,Baby,15
+PROD-116,Lemon,Fruits,Fresh,8
+PROD-117,Milk Chocolate,Snacks,Cadbury,25
+PROD-118,Laundry Detergent,Household,Tide,200
+PROD-119,Ketchup,Condiments,Heinz,40
+PROD-120,Cucumber,Vegetables,English,12
+PROD-121,Mayonnaise,Condiments,Hellmann's,50
+PROD-122,Salt,Condiments,Tata,10
+PROD-123,Pepper,Condiments,McCormick,15
+PROD-124,Watermelon,Fruits,Whole,40
+PROD-125,Yogurt Parfait,Dessert,Yoplait,30
+PROD-126,Baby Food,Baby Care,Gerber,25
+PROD-127,Green Beans,Vegetables,Fresh,20
+PROD-128,Honey,Spreads,Dabur,60
+PROD-129,Red Wine,Beverages,Yellow,250
+PROD-130,White Bread,Bakery,Wonder,30
+PROD-131,Facial Tissues,Household,Kleenex,40
+PROD-132,Chips,Snacks,Pringles,20
+PROD-133,Canned Soup,Canned Goods,Campbell's,45
+PROD-134,Orange Soda,Beverages,Fanta,35
+PROD-135,Butter,Dairy,Land O'Lakes,50
+PROD-136,Bagels,Bakery,Thomas',25
+PROD-137,Quinoa,Staples,Ancient Harvest,80
+PROD-138,Honeydew Melon,Fruits,Del Monte,40
+PROD-139,Avocado,Fruits,Hass,25
+PROD-140,Ground Beef,Meat,Angus Beef,150
+PROD-141,Salmon Fillet,Seafood,Wild-Caught,180
+PROD-142,Greek Yogurt,Dairy,FAGE,30
+PROD-143,Facial Cleanser,Personal Care,Neutrogena,50
+PROD-144,Conditioner,Personal Care,Herbal Essences,40
+PROD-145,Hand Soap,Personal Care,Softsoap,15
+PROD-146,Popcorn,Snacks,Orville Redenbacher's,25
+PROD-147,Lemonade,Beverages,Minute Maid,20
+PROD-148,Cottage Cheese,Dairy,Breakstone's,35
+PROD-149,Mozzarella Cheese,Dairy,Galbani,40
+PROD-150,Almonds,Nuts,Blue Diamond,120
+PROD-151,Mouthwash,Personal Care,Listerine,70
+PROD-152,Pancake Mix,Breakfast,Aunt Jemima,60
+PROD-153,Vinegar,Cooking,Bragg,30
+PROD-154,All-Purpose Cleaner,Household,Lysol,25
+PROD-155,Sorbet,Dessert,Talenti,40
+PROD-156,Pretzels,Snacks,Snyder's,15

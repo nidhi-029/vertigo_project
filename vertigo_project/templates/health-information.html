@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Information - VertiCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --secondary: #26c6da;
+            --accent: #ff6e40;
+            --text-dark: #333333;
+            --text-light: #757575;
+            --background: #f5f9ff;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 10px 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: rgba(30, 136, 229, 0.05);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 70%;
+        }
+
+        .login-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 140px 5% 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(38, 198, 218, 0.1);
+            z-index: 0;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 110, 64, 0.05);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* Table of Contents */
+        .toc-section {
+            padding: 60px 5%;
+            background-color: var(--white);
+        }
+
+        .toc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .toc-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary-dark);
+            width: 100%;
+        }
+
+        .toc-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .toc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .toc-card:hover::before {
+            width: 8px;
+        }
+
+        .toc-card-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-card-title i {
+            color: var(--primary);
+        }
+
+        .toc-links {
+            list-style: none;
+        }
+
+        .toc-links li {
+            margin-bottom: 10px;
+        }
+
+        .toc-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc-links a:hover {
+            color: var(--primary);
+            gap: 12px;
+        }
+
+        .toc-links a i {
+            font-size: 12px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .content-section:nth-child(odd) {
+            background-color: var(--white);
+        }
+
+        .content-section:nth-child(even) {
+            background-color: var(--background);
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .content-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .content-image {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .content-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .content-image img:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .content-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .content-text p {
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .content-text ul, .content-text ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .content-text li {
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background-color: rgba(30, 136, 229, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .stage-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stage-title i {
+            color: var(--primary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 0;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            font-size: 1.1rem;
+        }
+
+        .cta-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #263238;
+            color: white;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            gap: 8px;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--white);
+            z-index: 1001;
+            padding: 50px 20px;
+            transition: var(--transition);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 0;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .content-wrapper {
+                flex-direction: column;
+            }
+
+            .content-image {
+                order: -1;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <i class="fas fa-brain logo-icon"></i>
+            <span class="logo-text">VertiCare</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </div>
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="top">
+        <div class="hero-content">
+            <h1 class="hero-title">Understanding Vertigo</h1>
+            <p class="hero-subtitle">Learn about the causes, symptoms, types, and treatments for vertigo to better manage your condition and improve your quality of life.</p>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="toc-section">
+        <div class="toc-container">
+            <h2 class="toc-title">Quick Navigation</h2>
+            
+            <div class="toc-card">
+                <h3 class="toc-card-title">
+                    <i class="fas fa-info-circle"></i>
+                    Vertigo Basics
+                </h3>
+                <ul class="toc-links">
+                    <li><a href="#what-is-vertigo"><i class="fas fa-chevron-right"></i> What is Vertigo?</a></li>
+                    <li><a href="#symptoms"><i class="fas fa-chevron-right"></i> Symptoms</a></li>
+                    <li><a href="#causes"><i class="fas fa-chevron-right"></i> Causes</a></li>
+                    <li><a href="#diagnosis"><i class="fas fa-chevron-right"></i> Diagnosis</a></li>
+                </ul>
+            </div>
+            
+            <div class="toc-card">
+                <h3 class="toc-card-title">
+                    <i class="fas fa-list-alt"></i>
+                    Types of Vertigo
+                </h3>
+                <ul class="toc-links">
+                    <li><a href="#peripheral-vertigo"><i class="fas fa-chevron-right"></i> Peripheral Vertigo</a></li>
+                    <li><a href="#central-vertigo"><i class="fas fa-chevron-right"></i> Central Vertigo</a></li>
+                    <li><a href="#new-type"><i class="fas fa-chevron-right"></i> New Type of Vertigo</a></li>
+                </ul>
+            </div>
+            
+            <div class="toc-card">
+                <h3 class="toc-card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Stages & Management
+                </h3>
+                <ul class="toc-links">
+                    <li><a href="#stages"><i class="fas fa-chevron-right"></i> Stages of Vertigo</a></li>
+                    <li><a href="#mild-vertigo"><i class="fas fa-chevron-right"></i> Mild Vertigo</a></li>
+                    <li><a href="#moderate-vertigo"><i class="fas fa-chevron-right"></i> Moderate Vertigo</a></li>
+                    <li><a href="#severe-vertigo"><i class="fas fa-chevron-right"></i> Severe Vertigo</a></li>
+                    <li><a href="#precautions"><i class="fas fa-chevron-right"></i> Precautions</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is Vertigo Section -->
+    <section class="content-section" id="what-is-vertigo">
+        <div class="section-header">
+            <h2 class="section-title">What is Vertigo?</h2>
+            <p class="section-subtitle">Understanding the condition that affects your balance and spatial orientation</p>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="content-text">
+                <p>Vertigo is a sensation of spinning or dizziness that makes a person feel as if they or their surroundings are moving, even when stationary. It is often caused by problems in the inner ear or brain. Vertigo is not a disease but a symptom of various conditions, including vestibular disorders, migraines, or ear infections.</p>
+                
+                <p>Some individuals may also experience nausea, vomiting, balance problems, and difficulty focusing. Factors such as dehydration, sudden head movements, and stress can trigger or worsen vertigo. Treatment depends on the underlying cause and may include medications, lifestyle changes, and vestibular rehabilitation therapy.</p>
+                
+                <div class="info-box">
+                    <div class="info-box-title">Alternative Names</div>
+                    <p>Peripheral vertigo; Central vertigo; Dizziness; Benign positional vertigo; Benign paroxysmal positional vertigo.</p>
+                </div>
+            </div>
+            
+            <div class="content-image">
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=400&q=80" alt="Person experiencing vertigo symptoms">
+            </div>
+        </div>
+    </section>
+
+    <!-- Symptoms Section -->
+    <section class="content-section" id="symptoms">
+        <div class="section-header">
+            <h2 class="section-title">Symptoms</h2>
+            <p class="section-subtitle">Recognizing the signs and symptoms of vertigo</p>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="content-text">
+                <p>The main symptom of vertigo is a sensation that you or the room is moving or spinning. This spinning sensation may cause nausea and vomiting. Depending on the cause, other symptoms can include:</p>
+                
+                <ul>
+                    <li>Problem focusing the eyes</li>
+                    <li>Dizziness</li>
+                    <li>Hearing loss in one or both ears</li>
+                    <li>Loss of balance (may cause falls)</li>
+                    <li>Ringing in the ears</li>
+                    <li>Nausea and vomiting, leading to loss of body fluids</li>
+                </ul>
+                
+                <p>If you have vertigo due to problems in the brain (central vertigo), you may have other symptoms, including:</p>
+                
+                <ul>
+                    <li>Difficulty swallowing</li>
+                    <li>Double vision</li>
+                    <li>Eye movement problems</li>
+                    <li>Facial paralysis</li>
+                    <li>Slurred speech</li>
+                    <li>Weakness of the limbs</li>
+                </ul>
+                
+                <div class="info-box">
+                    <div class="info-box-title">Possible Complications</div>
+                    <p>Vertigo can cause falls, which may result in bone fractures (broken bones) or other injuries. Vertigo can also interfere with your quality of life and hinder your ability to drive or go to work.</p>
+                </div>
+            </div>
+            
+            <div class="content-image">
+                <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=400&q=80" alt="Person with dizziness symptoms">
+            </div>
+        </div>
+    </section>
+
+    <!-- Types of Vertigo Section -->
+    <section class="content-section" id="peripheral-vertigo">
+        <div class="section-header">
+            <h2 class="section-title">Types of Vertigo</h2>
+            <p class="section-subtitle">Understanding the different classifications of vertigo</p>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="content-text">
+                <h3>Peripheral Vertigo</h3>
+                <p>Peripheral vertigo is the most common type of vertigo and is caused by problems in the inner ear, which controls our balance. It presents with symptoms such as spinning sensation, sweating, nausea, vomiting, and ear problems. If peripheral vertigo is due to an infection in the inner ear, there can be pain or feeling of fullness in the ear.</p>
+                
+                <h4>Causes of Peripheral Vertigo</h4>
+                <p>Peripheral vertigo is mostly caused by problems in the inner ear, which helps maintain balance. Common causes include:</p>
+                
+                <ul>
+                    <li><strong>Benign Paroxysmal Positional Vertigo (BPPV)</strong> - Tiny calcium crystals in the ear become dislodged, sending false signals to the brain</li>
+                    <li><strong>Ménière's disease</strong> - Caused by fluid buildup in the inner ear, leading to vertigo, hearing loss, and ringing in the ears</li>
+                    <li><strong>Vestibular neuritis</strong> - Inflammation of the vestibular nerve often due to a viral infection</li>
+                    <li><strong>Labyrinthitis</strong> - An inner ear infection that affects both balance and hearing</li>
+                    <li><strong>Head injuries</strong> - Can damage inner ear structures</li>
+                </ul>
+                
+                <h4>Treatment of Peripheral Vertigo</h4>
+                <p>Peripheral vertigo can be treated using various approaches:</p>
+                
+                <ul>
+                    <li>Medications such as antibiotics (for infections), antihistamines, and anti-nausea drugs</li>
+                    <li>The Epley maneuver and Brandt-Daroff exercises for BPPV</li>
+                    <li>Vestibular rehabilitation therapy</li>
+                    <li>Lifestyle changes including low salt diet, avoiding alcohol, and stress management</li>
+                </ul>
+            </div>
+            
+            <div class="content-image">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=400&q=80" alt="Inner ear anatomy diagram">
+            </div>
+        </div>
+    </section>
+
+    <!-- Central Vertigo Section -->
+    <section class="content-section" id="central-vertigo">
+        <div class="content-wrapper">
+            <div class="content-text">
+                <h3>Central Vertigo</h3>
+                <p>Central vertigo is caused by issues in the brain, mainly in areas like the cerebellum and brainstem that control balance. It tends to be more persistent and less responsive to treatment than peripheral vertigo.</p>
+                
+                <h4>Causes of Central Vertigo</h4>
+                <p>Central vertigo is caused by problems affecting the brain. Common causes include:</p>
+                
+                <ul>
+                    <li><strong>Stroke</strong> - Affects blood flow to the brain, leading to vertigo, double vision, and slurred speech</li>
+                    <li><strong>Multiple sclerosis (MS)</strong> - A condition that damages nerve coverings, affecting balance</li>
+                    <li><strong>Migraines</strong> - Especially vestibular migraines, which can trigger episodes of dizziness and nausea</li>
+                    <li><strong>Brain tumors</strong> - Pressing on balance centers can cause persistent vertigo</li>
+                    <li><strong>Traumatic brain injury (TBI)</strong> - From accidents or falls</li>
+                </ul>
+                
+                <h4>Treatment of Central Vertigo</h4>
+                <p>Central vertigo can only be managed by diagnosing and treating the root cause:</p>
+                
+                <ul>
+                    <li>Treating the underlying condition (stroke, MS, tumors)</li>
+                    <li>Prophylactic migraine medications for migraine-related vertigo</li>
+                    <li>Medications for symptom management (nausea, dizziness)</li>
+                    <li>Vestibular rehabilitation in some cases</li>
+                </ul>
+            </div>
+            
+            <div class="content-image">
+                <img src="{{ url_for('static', filename='images/scan.jpg') }}" alt="Brain scan showing vertigo condition">
+            </div>
+        </div>
+    </section>
+
+    <!-- New Type of Vertigo Section -->
+    <section class="content-section" id="new-type">
+        <div class="content-wrapper">
+            <div class="content-text">
+                <h3>New Type of Vertigo</h3>
+                <p>Apart from peripheral and central vertigo, neurologists recently identified a new type of vertigo which had no known cause but responds to treatment. This condition is known as recurrent spontaneous vertigo with head-shaking nystagmus.</p>
+                
+                <p>Patients with this condition experience vertigo attacks accompanied by headaches, nausea, and vomiting. These patients are also more likely to experience severe motion sickness than patients with other types of vertigo.</p>
+                
+                <div class="info-box">
+                    <div class="info-box-title">Research Note</div>
+                    <p>This newly identified type of vertigo is still being studied, and treatment protocols are being developed. If you experience symptoms that don't fit the traditional categories, consult with a neurologist who specializes in vestibular disorders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stages of Vertigo Section -->
+    <section class="content-section" id="stages">
+        <div class="section-header">
+            <h2 class="section-title">Stages of Vertigo</h2>
+            <p class="section-subtitle">Understanding the progression and severity levels of vertigo</p>
+        </div>
+        
+        <p>Vertigo is generally classified into three stages based on the severity and impact of symptoms:</p>
+        
+        <div class="stage-card" id="mild-vertigo">
+            <h3 class="stage-title">
+                <i class="fas fa-circle" style="color: #4caf50;"></i>
+                Mild Vertigo
+            </h3>
+            <div class="content-wrapper">
+                <div class="content-text">
+                    <p>Mild vertigo is the initial and least severe stage of vertigo, where a person experiences a gentle sensation of dizziness or a slight spinning feeling. These episodes are usually brief and may occur when changing positions, such as getting out of bed, bending down, or turning the head quickly.</p>
+                    
+                    <p>People with mild vertigo often feel a sense of imbalance but are usually able to continue with their normal activities. Factors like stress, anxiety, dehydration, lack of sleep, or sudden head movements can sometimes trigger these mild symptoms.</p>
+                    
+                    <p>Managing mild vertigo often involves simple lifestyle adjustments such as avoiding sudden movements, staying well-hydrated, and practicing relaxation techniques to reduce stress. If mild vertigo occurs regularly, consulting a healthcare professional is advised to prevent it from progressing to moderate or severe stages.</p>
+                </div>
+                
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80" alt="Person with mild vertigo symptoms">
+                </div>
+            </div>
+        </div>
+        
+        <div class="stage-card" id="moderate-vertigo">
+            <h3 class="stage-title">
+                <i class="fas fa-circle" style="color: #ff9800;"></i>
+                Moderate Vertigo
+            </h3>
+            <div class="content-wrapper">
+                <div class="content-text">
+                    <p>Moderate vertigo is the next stage where dizziness and spinning sensations become more noticeable and persistent. People with moderate vertigo may experience a stronger feeling of movement that lasts longer and interferes with daily activities like walking, working, or driving.</p>
+                    
+                    <p>Along with spinning, other symptoms such as nausea, unsteadiness, and difficulty focusing may appear. Head movements or sudden position changes can easily trigger these episodes. Unlike mild vertigo, moderate vertigo can be more distressing and may cause people to sit or lie down until the sensation passes.</p>
+                    
+                    <p>Managing moderate vertigo usually requires medical attention to identify the cause and begin treatment. Doctors may recommend vestibular rehabilitation exercises, medications to reduce dizziness and nausea, and specific maneuvers like the Epley maneuver in cases like BPPV.</p>
+                </div>
+                
+                <div class="content-image">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80" alt="Person experiencing moderate vertigo symptoms">
+                </div>
+            </div>
+        </div>
+        
+        <div class="stage-card" id="severe-vertigo">
+            <h3 class="stage-title">
+                <i class="fas fa-circle" style="color: #f44336;"></i>
+                Severe Vertigo
+            </h3>
+            <div class="content-wrapper">
+                <div class="content-text">
+                    <p>Severe vertigo is the most intense stage, where the spinning sensation becomes overwhelming and constant. People may feel like the entire environment is moving rapidly, making it impossible to stand, walk, or even sit upright without assistance.</p>
+                    
+                    <p>This stage is often accompanied by severe nausea, vomiting, loss of balance, and a strong fear of falling. Simple movements, such as turning the head or getting up from bed, can worsen the symptoms. In some cases, severe vertigo may also be linked with hearing problems, vision disturbances, and sweating.</p>
+                    
+                    <p>Managing severe vertigo requires immediate medical care. Doctors may prescribe strong anti-vertigo medications and anti-nausea drugs to control symptoms. In hospital settings, patients may receive fluids if they are dehydrated due to vomiting. Early diagnosis and treatment are crucial to prevent complications and improve quality of life.</p>
+                </div>
+                
+                <div class="content-image">
+                    <img src="{{ url_for('static', filename='images/image.jpeg') }}" alt="Another vertigo-related image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Precautions Section -->
+    <section class="content-section" id="precautions">
+        <div class="section-header">
+            <h2 class="section-title">Precautions for Vertigo</h2>
+            <p class="section-subtitle">Essential safety measures and lifestyle adjustments to manage vertigo</p>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="content-text">
+                <p>Taking the right precautions can help reduce the frequency and severity of vertigo attacks. Here are important measures to consider:</p>
+                
+                <h3>Home Safety</h3>
+                <ul>
+                    <li>Remove tripping hazards like loose rugs and clutter</li>
+                    <li>Install handrails in bathrooms and along staircases</li>
+                    <li>Use proper lighting, especially at night</li>
+                    <li>Consider using a walking aid if balance is severely affected</li>
+                </ul>
+                
+                <h3>Movement Precautions</h3>
+                <ul>
+                    <li>Avoid sudden head movements or quick changes in position</li>
+                    <li>Get up slowly from bed or chairs</li>
+                    <li>Sit down immediately if you feel dizzy</li>
+                    <li>Avoid activities like driving or climbing until vertigo improves</li>
+                </ul>
+                
+                <h3>Lifestyle Adjustments</h3>
+                <ul>
+                    <li>Limit salt intake, caffeine, alcohol, and tobacco</li>
+                    <li>Stay well-hydrated</li>
+                    <li>Get enough sleep and manage stress</li>
+                    <li>Practice stress-reduction techniques like yoga or meditation</li>
+                    <li>Follow prescribed treatments and attend vestibular rehabilitation therapy</li>
+                </ul>
+                
+                <div class="info-box">
+                    <div class="info-box-title">When to Seek Medical Help</div>
+                    <p>Contact your healthcare provider immediately if you experience new or severe vertigo symptoms, especially if accompanied by headache, difficulty speaking, weakness, or changes in vision. These could indicate a more serious condition requiring prompt medical attention.</p>
+                </div>
+            </div>
+            
+            <div class="content-image">
+                <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fA%3D%3D&auto=format&fit=crop&w=500&h=400&q=80" alt="Home safety precautions for vertigo patients">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Take Control of Your Vertigo</h2>
+            <p class="cta-subtitle">Understanding your condition is the first step toward effective management. Take our comprehensive vertigo assessment to get personalized recommendations.</p>
+            <a href="{{ url_for('test_page') }}" class="cta-btn">
+                Take the Vertigo Test <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-brain logo-icon"></i>
+                    <span class="footer-logo-text">VertiCare</span>
+                </a>
+                <p class="footer-description">Providing comprehensive resources and support for people suffering from vertigo and balance disorders.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="{{ url_for('patient_care') }}"><i class="fas fa-chevron-right"></i> Patient Care</a></li>
+                    <li><a href="{{ url_for('test_page') }}"><i class="fas fa-chevron-right"></i> Vertigo Test</a></li>
+                    <li><a href="{{ url_for('health_information') }}"><i class="fas fa-chevron-right"></i> Health Information</a></li>
+                    <li><a href="{{ url_for('hospitals') }}"><i class="fas fa-chevron-right"></i> Hospitals</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Vertigo Types</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Treatment Options</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Exercise Library</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Contact Us</h3>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Visakhapatnam</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+91 xxxxx-xxxxx</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@verticare.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2023 VertiCare. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            const backToTop = document.getElementById('backToTop');
+            
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                backToTop.classList.add('active');
+            } else {
+                navbar.classList.remove('scrolled');
+                backToTop.classList.remove('active');
+            }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeMenuBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    closeMenu();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

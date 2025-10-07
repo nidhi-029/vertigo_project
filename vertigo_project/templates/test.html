@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertigo Test - VertiCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --secondary: #26c6da;
+            --accent: #ff6e40;
+            --text-dark: #333333;
+            --text-light: #757575;
+            --background: #f5f9ff;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 10px 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: rgba(30, 136, 229, 0.05);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 70%;
+        }
+
+        .login-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Test Section */
+        .test-section {
+            padding: 140px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .test-container {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            animation: fadeInUp 1s ease-out;
+            transition: var(--transition);
+        }
+
+        .test-container:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        /* Existing styles remain unchanged... */
+
+        /* Enhance form-control for select elements */
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--white);
+            min-width: 250px; /* Ensure minimum width for longer options */
+            box-sizing: border-box;
+            position: relative; /* Allow control over dropdown positioning */
+        }
+
+            .form-control:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+                outline: none;
+            }
+
+            /* Target select elements specifically */
+            select.form-control {
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 15px center;
+                padding-right: 40px;
+                /* Ensure the dropdown menu adjusts to content */
+                position: relative;
+            }
+
+            /* Force the dropdown list to be wide enough for the longest option */
+            select.form-control option {
+                white-space: nowrap; /* Prevent wrapping */
+                min-width: 250px; /* Match or exceed the longest option width */
+                padding: 10px; /* Ensure padding for readability */
+                background-color: var(--white);
+                color: var(--text-dark);
+            }
+
+            /* Ensure the dropdown menu itself expands */
+            select.form-control:focus {
+                min-width: 250px; /* Ensure the dropdown matches the min-width */
+            }
+
+            /* Optional: Wrap select in a container for additional control */
+            .form-group {
+                margin-bottom: 25px;
+                position: relative; /* Allow dropdown to position relative to this */
+            }
+
+        
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Result Section */
+        .result-container {
+            margin-top: 30px;
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .result-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .result-subtitle {
+            color: var(--text-light);
+        }
+
+        .result-content {
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            color: var(--text-light);
+            background-color: rgba(30, 136, 229, 0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .probability-list {
+            list-style: none;
+        }
+
+        .probability-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background-color: rgba(30, 136, 229, 0.05);
+            border-radius: 8px;
+        }
+
+        .probability-type {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .probability-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .stage-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .stage-mild {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .stage-moderate {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .stage-severe {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error);
+        }
+
+        .result-actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .primary-action {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .primary-action:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .secondary-action {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .secondary-action:hover {
+            background-color: rgba(30, 136, 229, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .error-message {
+            color: var(--error);
+            background-color: rgba(244, 67, 54, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--primary);
+            transition: width 0.5s ease;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #263238;
+            color: white;
+            padding: 60px 5% 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            gap: 8px;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--white);
+            z-index: 1001;
+            padding: 50px 20px;
+            transition: var(--transition);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 0;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .test-container {
+                padding: 30px 20px;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <i class="fas fa-brain logo-icon"></i>
+            <span class="logo-text">VertiCare</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </div>
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Test Section -->
+    <section class="test-section">
+        <div class="section-header">
+            <h1 class="section-title">Vertigo Assessment Test</h1>
+            <p class="section-subtitle">Complete this comprehensive assessment to help identify your vertigo type and severity. Your results will provide personalized recommendations for treatment.</p>
+        </div>
+        
+        <div class="test-container">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <form id="vertigoForm">
+                <div class="form-group">
+                    <label for="Age">Age</label>
+                    <input type="number" name="Age" id="Age" class="form-control" placeholder="Enter your age" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Gender">Gender</label>
+                    <select name="Gender" id="Gender" class="form-control" required>
+                        <option value="">Select gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Dizziness">Do you experience dizziness?</label>
+                    <select name="Dizziness" id="Dizziness" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Lightheadedness">Do you experience lightheadedness?</label>
+                    <select name="Lightheadedness" id="Lightheadedness" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Nausea">Do you experience nausea during episodes?</label>
+                    <select name="Nausea" id="Nausea" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Vomiting">Do you experience vomiting during episodes?</label>
+                    <select name="Vomiting" id="Vomiting" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Hearing_Loss">Have you experienced hearing loss?</label>
+                    <select name="Hearing_Loss" id="Hearing_Loss" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Tinnitus">Do you experience ringing in the ears (tinnitus)?</label>
+                    <select name="Tinnitus" id="Tinnitus" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Ear_Pain">Do you experience ear pain?</label>
+                    <select name="Ear_Pain" id="Ear_Pain" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Headache">Do you experience headaches with your symptoms?</label>
+                    <select name="Headache" id="Headache" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Blurred_Vision">Do you experience blurred vision during episodes?</label>
+                    <select name="Blurred_Vision" id="Blurred_Vision" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Imbalance">Do you feel unsteady or have balance problems?</label>
+                    <select name="Imbalance" id="Imbalance" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Spinning_Sensation">Do you experience a spinning sensation?</label>
+                    <select name="Spinning_Sensation" id="Spinning_Sensation" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Sensitivity_to_Motion">Are you sensitive to motion or movement?</label>
+                    <select name="Sensitivity_to_Motion" id="Sensitivity_to_Motion" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="History_of_Migraine">Do you have a history of migraines?</label>
+                    <select name="History_of_Migraine" id="History_of_Migraine" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="History_of_Ear_Infections">Do you have a history of ear infections?</label>
+                    <select name="History_of_Ear_Infections" id="History_of_Ear_Infections" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="History_of_Head_Trauma">Have you experienced head trauma or injury?</label>
+                    <select name="History_of_Head_Trauma" id="History_of_Head_Trauma" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Cardiovascular_Issues">Do you have any cardiovascular issues?</label>
+                    <select name="Cardiovascular_Issues" id="Cardiovascular_Issues" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Neurological_Issues">Do you have any neurological issues?</label>
+                    <select name="Neurological_Issues" id="Neurological_Issues" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Symptoms_After_Position_Change">Do your symptoms worsen after position changes?</label>
+                    <select name="Symptoms_After_Position_Change" id="Symptoms_After_Position_Change" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Duration_of_Episodes">How long do your episodes typically last?</label>
+                    <select name="Duration_of_Episodes" id="Duration_of_Episodes" class="form-control" required>
+                        <option value="">Select duration</option>
+                        <option value="Days">Days</option>
+                        <option value="Hours">Hours</option>
+                        <option value="Minutes">Minutes</option>
+                        <option value="Seconds">Seconds</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Frequency_of_Episodes">How often do you experience episodes?</label>
+                    <select name="Frequency_of_Episodes" id="Frequency_of_Episodes" class="form-control" required>
+                        <option value="">Select frequency</option>
+                        <option value="Daily">Daily</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Rarely">Rarely</option>
+                        <option value="Weekly">Weekly</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Recent_Illness">Have you had any recent illness?</label>
+                    <select name="Recent_Illness" id="Recent_Illness" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Medication_Use">Are you currently taking any medications?</label>
+                    <select name="Medication_Use" id="Medication_Use" class="form-control" required>
+                        <option value="">Select medication</option>
+                        <option value="Antibiotics">Antibiotics</option>
+                        <option value="Diuretics">Diuretics</option>
+                        <option value="Other">Other</option>
+                        <option value="Unknown">Unknown</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Stress_Level">How would you rate your current stress level?</label>
+                    <select name="Stress_Level" id="Stress_Level" class="form-control" required>
+                        <option value="">Select stress level</option>
+                        <option value="High">High</option>
+                        <option value="Low">Low</option>
+                        <option value="Moderate">Moderate</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Physical_Activity_Level">How would you describe your physical activity level?</label>
+                    <select name="Physical_Activity_Level" id="Physical_Activity_Level" class="form-control" required>
+                        <option value="">Select activity level</option>
+                        <option value="Active">Active</option>
+                        <option value="Moderately Active">Moderately Active</option>
+                        <option value="Sedentary">Sedentary</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="Exposure_to_Loud_Noise">Have you been exposed to loud noise recently?</label>
+                    <select name="Exposure_to_Loud_Noise" id="Exposure_to_Loud_Noise" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-stethoscope"></i>
+                    Submit Assessment
+                </button>
+            </form>
+            
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">There was an error processing your request. Please try again.</span>
+            </div>
+        </div>
+        
+        <div class="result-container" id="result">
+            <div class="result-header">
+                <h2 class="result-title">Assessment Results</h2>
+                <p class="result-subtitle">Based on your responses, we've analyzed your vertigo symptoms</p>
+            </div>
+            
+            <div class="result-content">
+                <div class="result-item">
+                    <div class="result-label">Predicted Vertigo Type:</div>
+                    <div class="result-value" id="vertigoType">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Severity Stage:</div>
+                    <div class="result-value">
+                        <span id="vertigoStage">-</span>
+                        <span id="stageBadge" class="stage-badge"></span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Probability Analysis:</div>
+                    <ul class="probability-list" id="probabilityList">
+                        <!-- Probabilities will be inserted here -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="result-actions">
+                <a href="{{ url_for('patient_care') }}" class="action-btn primary-action">
+                    <i class="fas fa-heartbeat"></i>
+                    View Recommended Exercises
+                </a>
+                <button onclick="resetForm()" class="action-btn secondary-action">
+                    <i class="fas fa-redo"></i>
+                    Take Test Again
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-brain logo-icon"></i>
+                    <span class="footer-logo-text">VertiCare</span>
+                </a>
+                <p class="footer-description">Providing comprehensive resources and support for people suffering from vertigo and balance disorders.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="{{ url_for('patient_care') }}"><i class="fas fa-chevron-right"></i> Patient Care</a></li>
+                    <li><a href="{{ url_for('test_page') }}"><i class="fas fa-chevron-right"></i> Vertigo Test</a></li>
+                    <li><a href="{{ url_for('health_information') }}"><i class="fas fa-chevron-right"></i> Health Information</a></li>
+                    <li><a href="{{ url_for('hospitals') }}"><i class="fas fa-chevron-right"></i> Hospitals</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Vertigo Types</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Treatment Options</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Exercise Library</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Contact Us</h3>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Visakhapatnam</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+91 xxxxx-xxxxx</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@verticare.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2025 VertiCare. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+    
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    
+        closeMenuBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+    
+        // Form progress tracking
+        const form = document.getElementById('vertigoForm');
+        const formElements = form.querySelectorAll('select, input');
+        const progressBar = document.getElementById('progressBar');
+    
+        function updateProgress() {
+            let filledCount = 0;
+            formElements.forEach(element => {
+                if (element.value) filledCount++;
+            });
+            
+            const progressPercentage = (filledCount / formElements.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+    
+        formElements.forEach(element => {
+            element.addEventListener('change', updateProgress);
+        });
+    
+        // Form submission
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                // Show loading state
+                document.querySelector('.submit-btn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                document.querySelector('.submit-btn').disabled = true;
+                
+                console.log('Sending data to /predict:', data); // Debug: Log sent data
+                
+                // Send data to /predict endpoint
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                console.log('Response status:', response.status); // Debug: Log response status
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Received result:', result); // Debug: Log received result
+                    displayResults(result);
+                } else {
+                    const errorData = await response.json();
+                    console.log('Error response:', errorData); // Debug: Log error response
+                    showError(errorData.error || 'An error occurred. Please try again.');
+                }
+                
+                // Reset button state
+                document.querySelector('.submit-btn').innerHTML = '<i class="fas fa-stethoscope"></i> Submit Assessment';
+                document.querySelector('.submit-btn').disabled = false;
+                
+            } catch (error) {
+                console.error('Fetch error:', error); // Debug: Log any fetch errors
+                showError('Network error. Please check your connection and try again.');
+                
+                // Reset button state
+                document.querySelector('.submit-btn').innerHTML = '<i class="fas fa-stethoscope"></i> Submit Assessment';
+                document.querySelector('.submit-btn').disabled = false;
+            }
+        });
+    
+        function displayResults(result) {
+            // Update result elements
+            document.getElementById('vertigoType').textContent = result.predicted_vertigo_type;
+            document.getElementById('vertigoStage').textContent = result.stage;
+            
+            // Set stage badge
+            const stageBadge = document.getElementById('stageBadge');
+            stageBadge.textContent = result.stage;
+            stageBadge.className = 'stage-badge';
+            
+            if (result.stage.includes('Stage 0') || result.stage.includes('Stage 1')) {
+                stageBadge.classList.add('stage-mild');
+            } else if (result.stage.includes('Stage 2')) {
+                stageBadge.classList.add('stage-moderate');
+            } else if (result.stage.includes('Stage 3')) {
+                stageBadge.classList.add('stage-severe');
+            }
+            
+            // Add probability items
+            const probabilityList = document.getElementById('probabilityList');
+            probabilityList.innerHTML = '';
+            
+            Object.entries(result.probabilities).forEach(([type, prob]) => {
+                const li = document.createElement('li');
+                li.className = 'probability-item';
+                li.innerHTML = `
+                    <span class="probability-type">${type}</span>
+                    <span class="probability-value">${prob}</span>
+                `;
+                probabilityList.appendChild(li);
+            });
+            
+            // Show result container
+            document.getElementById('result').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+    
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            errorText.textContent = message;
+            errorMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+    
+        function resetForm() {
+            form.reset();
+            document.getElementById('result').style.display = 'none';
+            progressBar.style.width = '0';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
+

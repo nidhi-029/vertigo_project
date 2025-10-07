@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertigo Treatment Centers - VertiCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --secondary: #26c6da;
+            --accent: #ff6e40;
+            --text-dark: #333333;
+            --text-light: #757575;
+            --background: #f5f9ff;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 10px 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: rgba(30, 136, 229, 0.05);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 70%;
+        }
+
+        .login-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hospitals Section */
+        .hospitals-section {
+            padding: 140px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filter */
+        .search-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .filter-dropdown {
+            min-width: 200px;
+            position: relative;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+            outline: none;
+        }
+
+        /* Hospitals Grid */
+        .hospitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .hospital-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .hospital-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .hospital-card:hover::before {
+            width: 8px;
+        }
+
+        .hospital-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+        }
+
+        .hospital-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .hospital-location i {
+            color: var(--primary);
+        }
+
+        .hospital-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+        }
+
+        .rating-count {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .hospital-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .specialty-tag {
+            background-color: rgba(30, 136, 229, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .hospital-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .contact-info i {
+            color: var(--primary);
+        }
+
+        .view-details {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .view-details:hover {
+            color: var(--primary-dark);
+            gap: 8px;
+        }
+
+        /* Load More Button */
+        .load-more {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .load-more-btn {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--primary);
+        }
+
+        .load-more-btn:hover {
+            background-color: rgba(30, 136, 229, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            animation: fadeInUp 0.5s ease-out;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 25px;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .modal-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .hospital-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .hospital-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .hospital-map {
+            flex: 1;
+            min-width: 250px;
+            height: 200px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .hospital-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-label i {
+            color: var(--primary);
+        }
+
+        .info-value {
+            color: var(--text-light);
+            padding-left: 25px;
+        }
+
+        .hospital-services {
+            margin-top: 25px;
+        }
+
+        .services-title {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+        }
+
+        .service-item i {
+            color: var(--primary);
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .appointment-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .appointment-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .directions-btn {
+            background-color: transparent;
+            color: var(--primary);
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--primary);
+        }
+
+        .directions-btn:hover {
+            background-color: rgba(30, 136, 229, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #263238;
+            color: white;
+            padding: 60px 5% 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            gap: 8px;
+        }
+
+        .footer-contact {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-contact i {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation delays for hospital cards */
+        .hospital-card:nth-child(1) { animation-delay: 0.1s; }
+        .hospital-card:nth-child(2) { animation-delay: 0.2s; }
+        .hospital-card:nth-child(3) { animation-delay: 0.3s; }
+        .hospital-card:nth-child(4) { animation-delay: 0.4s; }
+        .hospital-card:nth-child(5) { animation-delay: 0.5s; }
+        .hospital-card:nth-child(6) { animation-delay: 0.6s; }
+        .hospital-card:nth-child(7) { animation-delay: 0.7s; }
+        .hospital-card:nth-child(8) { animation-delay: 0.8s; }
+        .hospital-card:nth-child(9) { animation-delay: 0.9s; }
+        .hospital-card:nth-child(10) { animation-delay: 1.0s; }
+        .hospital-card:nth-child(11) { animation-delay: 1.1s; }
+        .hospital-card:nth-child(12) { animation-delay: 1.2s; }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--white);
+            z-index: 1001;
+            padding: 50px 20px;
+            transition: var(--transition);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .mobile-nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 0;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .appointment-btn, .directions-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <i class="fas fa-brain logo-icon"></i>
+            <span class="logo-text">VertiCare</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+        </div>
+        <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Hospitals Section -->
+    <section class="hospitals-section">
+        <div class="section-header">
+            <h1 class="section-title">Vertigo Treatment Centers</h1>
+            <p class="section-subtitle">Find specialized hospitals and clinics that offer comprehensive vertigo treatment and care. Our directory includes top-rated facilities across India.</p>
+        </div>
+        
+        <div class="search-filter">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search by hospital name or location">
+            </div>
+            
+            <div class="filter-dropdown">
+                <select class="filter-select" id="regionFilter">
+                    <option value="">All Regions</option>
+                    <option value="North">North India</option>
+                    <option value="South">South India</option>
+                    <option value="East">East India</option>
+                    <option value="West">West India</option>
+                    <option value="Central">Central India</option>
+                </select>
+            </div>
+            
+            <div class="filter-dropdown">
+                <select class="filter-select" id="specialtyFilter">
+                    <option value="">All Specialties</option>
+                    <option value="ENT">ENT Specialists</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Vestibular">Vestibular Rehabilitation</option>
+                    <option value="Audiology">Audiology</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="hospitals-grid" id="hospitalsGrid">
+            <!-- Hospital cards will be dynamically generated here -->
+        </div>
+        
+        <div class="load-more">
+            <button class="load-more-btn" id="loadMoreBtn">
+                <i class="fas fa-plus-circle"></i>
+                Load More Hospitals
+            </button>
+        </div>
+    </section>
+    
+    <!-- Hospital Details Modal -->
+    <div id="hospitalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalHospitalName">Hospital Name</h2>
+                <p class="modal-subtitle" id="modalHospitalLocation">Location</p>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="hospital-details">
+                    <div class="hospital-info">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Address
+                            </div>
+                            <div class="info-value" id="modalAddress">Full address will appear here</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-phone-alt"></i>
+                                Contact
+                            </div>
+                            <div class="info-value" id="modalContact">Contact information will appear here</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-clock"></i>
+                                Working Hours
+                            </div>
+                            <div class="info-value" id="modalHours">Working hours will appear here</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user-md"></i>
+                                Specialists
+                            </div>
+                            <div class="info-value" id="modalSpecialists">Specialist information will appear here</div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="hospital-services">
+                    <h3 class="services-title">Services Offered</h3>
+                    <div class="services-list" id="modalServices">
+                        <!-- Services will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <a href="#" class="appointment-btn" id="appointmentBtn">
+                    <i class="fas fa-calendar-check"></i>
+                    Book Appointment
+                </a>
+                <a href="#" class="directions-btn" id="directionsBtn" target="_blank">
+                    <i class="fas fa-directions"></i>
+                    Get Directions
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-brain logo-icon"></i>
+                    <span class="footer-logo-text">VertiCare</span>
+                </a>
+                <p class="footer-description">Providing comprehensive resources and support for people suffering from vertigo and balance disorders.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('home') }}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="{{ url_for('patient_care') }}"><i class="fas fa-chevron-right"></i> Patient Care</a></li>
+                    <li><a href="{{ url_for('test_page') }}"><i class="fas fa-chevron-right"></i> Vertigo Test</a></li>
+                    <li><a href="{{ url_for('health_information') }}"><i class="fas fa-chevron-right"></i> Health Information</a></li>
+                    <li><a href="{{ url_for('hospitals') }}"><i class="fas fa-chevron-right"></i> Hospitals</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Vertigo Types</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Treatment Options</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Exercise Library</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-title">Contact Us</h3>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Visakhapatnam</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-phone-alt"></i>
+                    <p>+91 xxxxx-xxxxx</p>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@verticare.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2023 VertiCare. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const overlay = document.querySelector('.overlay');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeMenu() {
+            mobileMenu.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeMenuBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+
+        // Hospital data
+        const hospitalData = [
+            {
+                id: 1,
+                name: "Medicover Hospitals",
+                location: "Vizag, Andhra Pradesh",
+                address: "Medicover Hospitals, MVP Double Road, Vizag, Andhra Pradesh - 530017",
+                contact: "+91 9876543210",
+                hours: "Monday - Saturday: 9:00 AM - 8:00 PM, Sunday: 9:00 AM - 1:00 PM",
+                specialists: "Dr. Rajesh Kumar (ENT), Dr. Priya Sharma (Neurologist)",
+                rating: 4.8,
+                reviews: 245,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Comprehensive Vertigo Assessment",
+                    "Vestibular Rehabilitation Therapy",
+                    "Balance Training",
+                    "Epley Maneuver Treatment",
+                    "Audiological Evaluation",
+                    "Neurological Consultation",
+                    "Medication Management",
+                    "Surgical Interventions"
+                ],
+                region: "South"
+            },
+            {
+                id: 2,
+                name: "Apollo Hospitals",
+                location: "Chennai, Tamil Nadu",
+                address: "Apollo Hospitals, Greams Road, Chennai, Tamil Nadu - 600006",
+                contact: "+91 9876543211",
+                hours: "24/7 Emergency Services, Outpatient: 8:00 AM - 8:00 PM",
+                specialists: "Dr. Anand Rao (ENT), Dr. Meera Patel (Neurologist)",
+                rating: 4.7,
+                reviews: 320,
+                specialties: ["ENT", "Neurology", "Audiology"],
+                services: [
+                    "Vertigo Diagnosis & Treatment",
+                    "Balance Disorder Management",
+                    "Vestibular Function Tests",
+                    "Hearing Tests",
+                    "Neurological Evaluation",
+                    "Surgical Treatments",
+                    "Rehabilitation Programs"
+                ],
+                region: "South"
+            },
+            {
+                id: 3,
+                name: "Fortis Hospital",
+                location: "Bangalore, Karnataka",
+                address: "Fortis Hospital, Bannerghatta Road, Bangalore, Karnataka - 560076",
+                contact: "+91 9876543212",
+                hours: "Monday - Saturday: 9:00 AM - 7:00 PM, Sunday: Closed",
+                specialists: "Dr. Suresh Menon (ENT), Dr. Kavita Iyer (Neurologist)",
+                rating: 4.6,
+                reviews: 198,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Vertigo Assessment",
+                    "Balance Testing",
+                    "Vestibular Rehabilitation",
+                    "Canalith Repositioning",
+                    "Neurological Consultation",
+                    "Medication Management"
+                ],
+                region: "South"
+            },
+            {
+                id: 4,
+                name: "AIIMS",
+                location: "New Delhi",
+                address: "All India Institute of Medical Sciences, Ansari Nagar, New Delhi - 110029",
+                contact: "+91 9876543213",
+                hours: "Monday - Friday: 8:30 AM - 5:30 PM, Saturday: 8:30 AM - 1:00 PM",
+                specialists: "Dr. Vikram Singh (ENT), Dr. Anjali Desai (Neurologist)",
+                rating: 4.9,
+                reviews: 412,
+                specialties: ["ENT", "Neurology", "Audiology", "Vestibular Rehabilitation"],
+                services: [
+                    "Advanced Vertigo Diagnostics",
+                    "Comprehensive Balance Assessment",
+                    "Vestibular Rehabilitation",
+                    "Neurological Evaluation",
+                    "Research-based Treatments",
+                    "Surgical Interventions",
+                    "Multidisciplinary Care"
+                ],
+                region: "North"
+            },
+            {
+                id: 5,
+                name: "Max Super Speciality Hospital",
+                location: "Delhi",
+                address: "Max Super Speciality Hospital, Saket, Delhi - 110017",
+                contact: "+91 9876543214",
+                hours: "Monday - Sunday: 8:00 AM - 8:00 PM",
+                specialists: "Dr. Rahul Khanna (ENT), Dr. Neha Gupta (Neurologist)",
+                rating: 4.5,
+                reviews: 276,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Vertigo Management",
+                    "Balance Disorder Treatment",
+                    "Vestibular Testing",
+                    "Neurological Assessment",
+                    "Customized Rehabilitation",
+                    "Medication Therapy"
+                ],
+                region: "North"
+            },
+            {
+                id: 6,
+                name: "Narayana Health",
+                location: "Kolkata, West Bengal",
+                address: "Narayana Health, Rabindra Nath Tagore Road, Kolkata, West Bengal - 700156",
+                contact: "+91 9876543215",
+                hours: "Monday - Saturday: 9:00 AM - 6:00 PM, Sunday: Emergency Only",
+                specialists: "Dr. Sanjay Bose (ENT), Dr. Ritu Chatterjee (Neurologist)",
+                rating: 4.4,
+                reviews: 187,
+                specialties: ["ENT", "Neurology", "Audiology"],
+                services: [
+                    "Vertigo Diagnosis",
+                    "Balance Assessment",
+                    "Hearing Evaluation",
+                    "Vestibular Rehabilitation",
+                    "Neurological Consultation",
+                    "Surgical Management"
+                ],
+                region: "East"
+            },
+            {
+                id: 7,
+                name: "Kokilaben Dhirubhai Ambani Hospital",
+                location: "Mumbai, Maharashtra",
+                address: "Kokilaben Dhirubhai Ambani Hospital, Andheri West, Mumbai, Maharashtra - 400053",
+                contact: "+91 9876543216",
+                hours: "Monday - Sunday: 8:00 AM - 9:00 PM",
+                specialists: "Dr. Amit Shah (ENT), Dr. Leela Patil (Neurologist)",
+                rating: 4.7,
+                reviews: 302,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation", "Audiology"],
+                services: [
+                    "Comprehensive Vertigo Care",
+                    "Advanced Balance Testing",
+                    "Vestibular Rehabilitation",
+                    "Audiological Assessment",
+                    "Neurological Evaluation",
+                    "Surgical Interventions",
+                    "Multidisciplinary Approach"
+                ],
+                region: "West"
+            },
+            {
+                id: 8,
+                name: "Medanta - The Medicity",
+                location: "Gurgaon, Haryana",
+                address: "Medanta - The Medicity, Sector 38, Gurgaon, Haryana - 122001",
+                contact: "+91 9876543217",
+                hours: "Monday - Saturday: 8:30 AM - 7:30 PM, Sunday: 9:00 AM - 2:00 PM",
+                specialists: "Dr. Vivek Arora (ENT), Dr. Sunita Reddy (Neurologist)",
+                rating: 4.8,
+                reviews: 289,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Vertigo Assessment & Management",
+                    "Balance Disorder Treatment",
+                    "Vestibular Function Testing",
+                    "Neurological Consultation",
+                    "Customized Rehabilitation Programs",
+                    "Surgical Management"
+                ],
+                region: "North"
+            },
+            {
+                id: 9,
+                name: "Manipal Hospitals",
+                location: "Bangalore, Karnataka",
+                address: "Manipal Hospitals, Old Airport Road, Bangalore, Karnataka - 560017",
+                contact: "+91 9876543218",
+                hours: "Monday - Saturday: 9:00 AM - 7:00 PM, Sunday: Emergency Only",
+                specialists: "Dr. Karthik Rao (ENT), Dr. Sharmila Nair (Neurologist)",
+                rating: 4.6,
+                reviews: 231,
+                specialties: ["ENT", "Neurology", "Audiology"],
+                services: [
+                    "Vertigo Diagnosis & Treatment",
+                    "Balance Assessment",
+                    "Vestibular Rehabilitation",
+                    "Hearing Evaluation",
+                    "Neurological Consultation",
+                    "Medication Management"
+                ],
+                region: "South"
+            },
+            {
+                id: 10,
+                name: "Shalby Hospitals",
+                location: "Ahmedabad, Gujarat",
+                address: "Shalby Hospitals, S.G. Highway, Ahmedabad, Gujarat - 380061",
+                contact: "+91 9876543219",
+                hours: "Monday - Saturday: 9:00 AM - 6:00 PM, Sunday: 9:00 AM - 1:00 PM",
+                specialists: "Dr. Nitin Patel (ENT), Dr. Rekha Shah (Neurologist)",
+                rating: 4.5,
+                reviews: 176,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Vertigo Management",
+                    "Balance Disorder Treatment",
+                    "Vestibular Testing",
+                    "Neurological Assessment",
+                    "Rehabilitation Programs",
+                    "Surgical Interventions"
+                ],
+                region: "West"
+            },
+            {
+                id: 11,
+                name: "Christian Medical College",
+                location: "Vellore, Tamil Nadu",
+                address: "Christian Medical College, Ida Scudder Road, Vellore, Tamil Nadu - 632004",
+                contact: "+91 9876543220",
+                hours: "Monday - Friday: 8:00 AM - 5:00 PM, Saturday: 8:00 AM - 1:00 PM",
+                specialists: "Dr. Thomas Kurian (ENT), Dr. Mary Joseph (Neurologist)",
+                rating: 4.9,
+                reviews: 342,
+                specialties: ["ENT", "Neurology", "Audiology", "Vestibular Rehabilitation"],
+                services: [
+                    "Comprehensive Vertigo Assessment",
+                    "Advanced Balance Testing",
+                    "Vestibular Rehabilitation",
+                    "Audiological Evaluation",
+                    "Neurological Consultation",
+                    "Research-based Treatments",
+                    "Multidisciplinary Care"
+                ],
+                region: "South"
+            },
+            {
+                id: 12,
+                name: "Sir Ganga Ram Hospital",
+                location: "Delhi",
+                address: "Sir Ganga Ram Hospital, Rajinder Nagar, Delhi - 110060",
+                contact: "+91 9876543221",
+                hours: "Monday - Saturday: 9:00 AM - 6:00 PM, Sunday: Emergency Only",
+                specialists: "Dr. Rajiv Mehta (ENT), Dr. Shalini Kapoor (Neurologist)",
+                rating: 4.7,
+                reviews: 267,
+                specialties: ["ENT", "Neurology", "Vestibular Rehabilitation"],
+                services: [
+                    "Vertigo Diagnosis & Treatment",
+                    "Balance Disorder Management",
+                    "Vestibular Rehabilitation",
+                    "Neurological Consultation",
+                    "Medication Management",
+                    "Surgical Interventions"
+                ],
+                region: "North"
+            }
+        ];
+
+        // Function to create hospital cards
+        function createHospitalCards(hospitals) {
+            const hospitalsGrid = document.getElementById('hospitalsGrid');
+            hospitalsGrid.innerHTML = '';
+            
+            if (hospitals.length === 0) {
+                hospitalsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 30px; color: var(--text-light);">No hospitals found matching your criteria. Please try different search terms or filters.</p>';
+                return;
+            }
+            
+            hospitals.forEach(hospital => {
+                const card = document.createElement('div');
+                card.className = 'hospital-card';
+                card.setAttribute('data-id', hospital.id);
+                
+                // Create rating stars
+                let starsHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= Math.floor(hospital.rating)) {
+                        starsHTML += '<i class="fas fa-star"></i>';
+                    } else if (i === Math.ceil(hospital.rating) && !Number.isInteger(hospital.rating)) {
+                        starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        starsHTML += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                // Create specialty tags
+                let specialtiesHTML = '';
+                hospital.specialties.slice(0, 3).forEach(specialty => {
+                    specialtiesHTML += `<span class="specialty-tag">${specialty}</span>`;
+                });
+                
+                card.innerHTML = `
+                    <h3 class="hospital-name">${hospital.name}</h3>
+                    <div class="hospital-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${hospital.location}</span>
+                    </div>
+                    <div class="hospital-rating">
+                        <div class="rating-stars">${starsHTML}</div>
+                        <span class="rating-count">(${hospital.reviews} reviews)</span>
+                    </div>
+                    <div class="hospital-specialties">
+                        ${specialtiesHTML}
+                    </div>
+                    <div class="hospital-contact">
+                        <div class="contact-info">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Contact Available</span>
+                        </div>
+                        <a href="#" class="view-details">View Details <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                
+                hospitalsGrid.appendChild(card);
+                
+                // Add click event to open modal
+                card.addEventListener('click', () => openHospitalModal(hospital));
+            });
+        }
+
+        // Function to open hospital modal
+        function openHospitalModal(hospital) {
+            const modal = document.getElementById('hospitalModal');
+            const modalHospitalName = document.getElementById('modalHospitalName');
+            const modalHospitalLocation = document.getElementById('modalHospitalLocation');
+            const modalAddress = document.getElementById('modalAddress');
+            const modalContact = document.getElementById('modalContact');
+            const modalHours = document.getElementById('modalHours');
+            const modalSpecialists = document.getElementById('modalSpecialists');
+            const modalServices = document.getElementById('modalServices');
+            
+            // Set modal content
+            modalHospitalName.textContent = hospital.name;
+            modalHospitalLocation.textContent = hospital.location;
+            modalAddress.textContent = hospital.address;
+            modalContact.textContent = hospital.contact;
+            modalHours.textContent = hospital.hours;
+            modalSpecialists.textContent = hospital.specialists;
+            
+            // Add services
+            modalServices.innerHTML = '';
+            hospital.services.forEach(service => {
+                const serviceItem = document.createElement('div');
+                serviceItem.className = 'service-item';
+                serviceItem.innerHTML = `
+                    <i class="fas fa-check-circle"></i>
+                    <span>${service}</span>
+                `;
+                modalServices.appendChild(serviceItem);
+            });
+            
+            // Set appointment and directions links
+            document.getElementById('appointmentBtn').href = `mailto:${hospital.contact}?subject=Appointment Request for ${hospital.name}`;
+            document.getElementById('directionsBtn').href = `https://www.google.com/maps/search/${encodeURIComponent(hospital.address)}`;
+            
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            document.getElementById('hospitalModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('hospitalModal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Search and filter functionality
+        const searchInput = document.getElementById('searchInput');
+        const regionFilter = document.getElementById('regionFilter');
+        const specialtyFilter = document.getElementById('specialtyFilter');
+        
+        function filterHospitals() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const regionValue = regionFilter.value;
+            const specialtyValue = specialtyFilter.value;
+            
+            const filteredHospitals = hospitalData.filter(hospital => {
+                // Search term filter
+                const matchesSearch = hospital.name.toLowerCase().includes(searchTerm) || 
+                                     hospital.location.toLowerCase().includes(searchTerm);
+                
+                // Region filter
+                const matchesRegion = regionValue === '' || hospital.region === regionValue;
+                
+                // Specialty filter
+                const matchesSpecialty = specialtyValue === '' || hospital.specialties.includes(specialtyValue);
+                
+                return matchesSearch && matchesRegion && matchesSpecialty;
+            });
+            
+            createHospitalCards(filteredHospitals);
+        }
+        
+        searchInput.addEventListener('input', filterHospitals);
+        regionFilter.addEventListener('change', filterHospitals);
+        specialtyFilter.addEventListener('change', filterHospitals);
+        
+        // Load more functionality
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        let currentlyShown = 12;
+        
+        loadMoreBtn.addEventListener('click', () => {
+            currentlyShown += 12;
+            if (currentlyShown >= hospitalData.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+            createHospitalCards(hospitalData.slice(0, currentlyShown));
+        });
+        
+        // Initialize page
+        createHospitalCards(hospitalData.slice(0, currentlyShown));
+    </script>
+</body>
+</html>
+

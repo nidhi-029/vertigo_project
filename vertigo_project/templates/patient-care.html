@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Care - VertiCare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --secondary: #26c6da;
+            --accent: #ff6e40;
+            --text-dark: #333333;
+            --text-light: #757575;
+            --background: #f5f9ff;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 10px 5%;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: rgba(30, 136, 229, 0.05);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 70%;
+        }
+
+        .login-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid var(--primary);
+            text-decoration: none;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 140px 5% 80px;
+            text-align: center;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(38, 198, 218, 0.1);
+            z-index: 0;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 110, 64, 0.05);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* Stage Navigation */
+        .stage-nav {
+            padding: 40px 5%;
+            background-color: var(--white);
+        }
+
+        .stage-nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .stage-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stage-tab {
+            padding: 12px 25px;
+            background-color: var(--white);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .stage-tab:hover {
+            background-color: rgba(30, 136, 229, 0.1);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .stage-tab i {
+            font-size: 1.2rem;
+        }
+
+        /* Stage Section */
+        .stage-section {
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .stage-section h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        /* Game Cards */
+        .games {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .game-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        .game-card p {
+            margin: 0;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        /* Modal Popup */
+        .description-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-hover);
+            width: 90%;
+            max-width: 600px;
+            z-index: 2000;
+            display: none;
+            text-align: left;
+            animation: zoomIn 0.4s ease-out;
+        }
+
+        .description-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .description-box p {
+            margin: 15px 0;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        .description-box button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .description-box button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Overlay Background */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1500;
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Utility Classes */
+        .mt-3 {
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 3%;
+            }
+
+            .nav-links {
+                margin-left: 10px;
+            }
+
+            .nav-links a {
+                padding: 8px 12px;
+                margin: 0 3px;
+            }
+
+            .hero-section {
+                padding: 120px 3% 60px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .stage-nav {
+                padding: 30px 3%;
+            }
+
+            .stage-tabs {
+                gap: 10px;
+            }
+
+            .stage-tab {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .stage-section {
+                padding: 30px 3%;
+            }
+
+            .stage-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .games {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 15px;
+            }
+
+            .game-card {
+                padding: 20px;
+            }
+
+            .game-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+            }
+
+            .game-card p {
+                font-size: 14px;
+            }
+
+            .description-box {
+                padding: 20px;
+            }
+
+            .description-box h3 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .description-box p {
+                font-size: 14px;
+            }
+
+            .description-box button {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .nav-links a {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+
+            .login-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .stage-tab {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .game-card h3 {
+                font-size: 1rem;
+            }
+
+            .game-card p {
+                font-size: 13px;
+            }
+        }
+
+        /* Cascading animation delays */
+        .game-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .game-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .game-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .game-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .game-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .game-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .game-card:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .game-card:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .game-card:nth-child(9) {
+            animation-delay: 0.9s;
+        }
+
+        .game-card:nth-child(10) {
+            animation-delay: 1s;
+        }
+
+        .game-card:nth-child(11) {
+            animation-delay: 1.1s;
+        }
+
+        .game-card:nth-child(12) {
+            animation-delay: 1.2s;
+        }
+
+        .game-card:nth-child(13) {
+            animation-delay: 1.3s;
+        }
+
+        .game-card:nth-child(14) {
+            animation-delay: 1.4s;
+        }
+
+        .game-card:nth-child(15) {
+            animation-delay: 1.5s;
+        }
+
+        .game-card:nth-child(16) {
+            animation-delay: 1.6s;
+        }
+
+        .game-card:nth-child(17) {
+            animation-delay: 1.7s;
+        }
+
+        .game-card:nth-child(18) {
+            animation-delay: 1.8s;
+        }
+
+        .game-card:nth-child(19) {
+            animation-delay: 1.9s;
+        }
+
+        .game-card:nth-child(20) {
+            animation-delay: 2s;
+        }
+
+        .game-card:nth-child(21) {
+            animation-delay: 2.1s;
+        }
+
+        .game-card:nth-child(22) {
+            animation-delay: 2.2s;
+        }
+
+        .game-card:nth-child(23) {
+            animation-delay: 2.3s;
+        }
+
+        .game-card:nth-child(24) {
+            animation-delay: 2.4s;
+        }
+
+        .game-card:nth-child(25) {
+            animation-delay: 2.5s;
+        }
+
+        .game-card:nth-child(26) {
+            animation-delay: 2.6s;
+        }
+
+        .game-card:nth-child(27) {
+            animation-delay: 2.7s;
+        }
+
+        .game-card:nth-child(28) {
+            animation-delay: 2.8s;
+        }
+
+        .game-card:nth-child(29) {
+            animation-delay: 2.9s;
+        }
+
+        .game-card:nth-child(30) {
+            animation-delay: 3s;
+        }
+
+        .game-card:nth-child(31) {
+            animation-delay: 3.1s;
+        }
+
+        .game-card:nth-child(32) {
+            animation-delay: 3.2s;
+        }
+
+        .game-card:nth-child(33) {
+            animation-delay: 3.3s;
+        }
+
+        .game-card:nth-child(34) {
+            animation-delay: 3.4s;
+        }
+
+        .game-card:nth-child(35) {
+            animation-delay: 3.5s;
+        }
+
+        .game-card:nth-child(36) {
+            animation-delay: 3.6s;
+        }
+
+        .game-card:nth-child(37) {
+            animation-delay: 3.7s;
+        }
+
+        .game-card:nth-child(38) {
+            animation-delay: 3.8s;
+        }
+
+        .game-card:nth-child(39) {
+            animation-delay: 3.9s;
+        }
+
+        .game-card:nth-child(40) {
+            animation-delay: 4s;
+        }
+
+        .game-card:nth-child(41) {
+            animation-delay: 4.1s;
+        }
+
+        .game-card:nth-child(42) {
+            animation-delay: 4.2s;
+        }
+
+        .game-card:nth-child(43) {
+            animation-delay: 4.3s;
+        }
+
+        .game-card:nth-child(44) {
+            animation-delay: 4.4s;
+        }
+
+        .game-card:nth-child(45) {
+            animation-delay: 4.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <i class="fas fa-heartbeat logo-icon"></i>
+            <span class="logo-text">VertiCare</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('patient_care') }}">Patient Care</a>
+            <a href="{{ url_for('test_page') }}">Test</a>
+            <a href="{{ url_for('health_information') }}">Health Information</a>
+            <a href="{{ url_for('hospitals') }}">Hospitals</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Take Control of Your Vertigo</h1>
+            <p class="hero-subtitle">Discover a range of exercises and games designed to help you manage and overcome vertigo symptoms. Our comprehensive guide provides step-by-step instructions and helpful tips to improve your balance and regain your confidence.</p>
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&h=300&q=80" alt="Balance exercises for vertigo" style="margin-top: 20px; border-radius: 15px; box-shadow: var(--shadow); max-width: 100%;">
+        </div>
+    </section>
+
+    <!-- Stage Navigation -->
+    <section class="stage-nav">
+        <div class="stage-nav-container">
+            <div class="stage-tabs">
+                <div class="stage-tab active" data-stage="1">
+                    <i class="fas fa-star"></i> Stage 1 (Mild Vertigo)
+                </div>
+                <div class="stage-tab" data-stage="2">
+                    <i class="fas fa-medal"></i> Stage 2 (Moderate Vertigo)
+                </div>
+                <div class="stage-tab" data-stage="3">
+                    <i class="fas fa-trophy"></i> Stage 3 (Severe Vertigo)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <div class="container">
+
+        <div class="stage-section">
+            <!-- Stage 1 -->
+            <div class="stage-section">
+                <h2 style="color: #007acc;">Stage 1 (Mild Vertigo)</h2>
+                <div class="games">
+
+                    <div class="game-card" data-title="Eye Movement Training" data-description="Move your eyes from side to side and then up and down without moving your head. Focus on one fixed point to train balance and coordination between your eyes and brain. This helps in reducing dizziness and stabilizing vision. Start slowly and avoid quick or jerky movements. Doing this twice a day improves balance over time. Perform while sitting for safety. If you feel dizzy, pause and relax. This exercise is essential for reducing visual-induced vertigo. Gradually increase speed as you become comfortable. Regular practice will strengthen your visual tracking system.">
+                        <h3>Eye Movement Training</h3>
+                        <p>Move eyes side-to-side and up-down to improve visual balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Breathing Techniques" data-description="Sit in a quiet place and take deep breaths to calm your body. Inhale slowly through your nose, hold for 3-4 seconds, and exhale gently through your mouth. Deep breathing reduces anxiety and helps during vertigo attacks. It improves oxygen supply to the brain and stabilizes body balance. Practice daily for better results. You can close your eyes and focus on breathing to improve relaxation. This technique is safe and effective for all ages. Regular use lowers panic associated with vertigo. Great to pair with other balance exercises. Helps center your body and mind.">
+                        <h3>Breathing Techniques</h3>
+                        <p>Deep breathing to reduce anxiety and improve body stability.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Posture Training" data-description="Stand and sit upright to align your spine, shoulders, and head properly. Maintaining good posture supports your balance system and prevents sudden dizziness. Avoid slouching or leaning. Practice in front of a mirror for better posture awareness. Keep your shoulders relaxed and evenly aligned. Practicing daily will train your muscles to stay in balance naturally. Good posture reduces pressure on your neck and improves coordination. Start with small intervals and gradually increase time. Focus on keeping your body symmetrical. Essential for long-term stability.">
+                        <h3>Posture Training</h3>
+                        <p>Practice good posture to align body for better balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Neck Mobility Exercises" data-description="Gently move your neck side to side and up and down to relax muscles and improve head control. Keep the movements slow and avoid sudden jerks to prevent dizziness. This helps reduce tension that can contribute to vertigo. Sit in a chair while performing this exercise. Repeat each movement 5-10 times. Do this twice a day for better results. Avoid pushing beyond your comfort range. Neck mobility improves blood flow to the brain. Essential for people with stiff neck and vertigo.">
+                        <h3>Neck Mobility Exercises</h3>
+                        <p>Gentle neck stretches to relieve tension and improve head control.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Stretching and Yoga" data-description="Perform gentle yoga stretches like Cat-Cow, Child’s Pose, and seated forward bends. Focus on slow breathing while holding each pose for 15-30 seconds. Stretching relaxes tight muscles and improves body balance. Yoga increases body awareness and reduces stress-related dizziness. Avoid fast movements. Practice for 10-15 minutes daily. Helps the nervous system calm down. Essential for overall flexibility. Great for preventing vertigo triggers caused by muscle tension. Creates a sense of calm and stability.">
+                        <h3>Stretching and Yoga</h3>
+                        <p>Basic yoga poses to enhance flexibility and calm the body.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Head Tilting" data-description="Tilt your head slowly side-to-side and forward-backward. This strengthens the vestibular system and improves your response to head movements. Sit comfortably and avoid quick jerks. Start with a few tilts and increase repetitions over time. Doing this regularly reduces sensitivity to head motion. Great for people who get dizzy when turning their heads. Avoid overextending your neck. Perform this exercise twice a day. Helps in training the brain to handle movements better. Boosts confidence in head movements.">
+                        <h3>Head Tilting</h3>
+                        <p>Slow head tilts to adjust vestibular response.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Visual Tracking" data-description="Hold a pen or finger in front of you and slowly move it side-to-side and up-down. Follow the object with your eyes without moving your head. This strengthens the connection between vision and balance. Improves focus on moving objects. Essential for those who feel dizzy watching moving scenes. Start slowly and avoid quick shifts. Repeat several times a day. Can be done sitting or standing depending on comfort. Over time, improves visual stability. Helps reduce motion-triggered dizziness.">
+                        <h3>Visual Tracking</h3>
+                        <p>Track moving objects with eyes to improve focus and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Hand-Eye Coordination" data-description="Perform simple activities like catching a ball, tossing and catching, or touching opposite hand to knee. These exercises enhance brain-body connection and improve balance. Start with easy tasks and increase difficulty as you improve. Helps with reaction time and spatial awareness. Perform in a safe space to avoid falling. Great for improving attention and motor skills. Repeat daily for better results. Can be done seated if standing is too difficult. Enhances coordination and reduces clumsiness. Fun and effective way to train balance.">
+                        <h3>Hand-Eye Coordination</h3>
+                        <p>Simple catching or ball activities to engage brain and body.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Foot Coordination Training" data-description="Tap toes, roll ankles, and flex feet slowly to improve control over lower body movements. Sit or lie down while performing. Helps prevent falls and improve stepping stability. Essential for people who feel unsteady while walking. Repeat each motion several times. Perform daily for the best results. Start slow and increase speed as you gain control. Improves circulation to feet and ankles. Prevents stiffness that can affect balance. Simple yet effective for lower body coordination.">
+                        <h3>Foot Coordination Training</h3>
+                        <p>Toe taps and ankle rolls to increase lower body control.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Body Rotation" data-description="Stand and slowly turn your body side to side. Keep feet in place and rotate gently at the waist. Helps your body adjust to turning motions and improves balance. Avoid fast or wide rotations. Perform near support if needed. Great for strengthening the core muscles involved in balance. Repeat 5-10 times each way. Helps reduce dizziness when turning in daily activities. Builds tolerance for rotational movements. Essential for regaining full mobility. Safe for beginners.">
+                        <h3>Body Rotation</h3>
+                        <p>Slow body turns to adjust balance system.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Side Stepping" data-description="Step to the side slowly and then return. Repeat on both sides. Improves lateral balance and stability. Perform near a wall or rail for support. Start small and increase range as you improve. Important for improving walking balance. Helps prevent sideward falls. Simple yet effective daily exercise. Enhances leg strength and coordination. Repeat 10-15 steps on each side.">
+                        <h3>Side Stepping</h3>
+                        <p>Step side-to-side to enhance lateral movement.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Obstacle Avoidance" data-description="Place small objects on the floor and practice stepping over or around them. Improves focus, coordination, and balance. Helps train your brain to navigate around obstacles safely. Start with larger objects and progress to smaller ones. Essential for daily mobility and safety. Perform slowly at first. Helps prevent tripping accidents. Great for real-world balance challenges. Repeat for 5 minutes daily.">
+                        <h3>Obstacle Avoidance</h3>
+                        <p>Step over or around small objects to improve navigation.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Slow Marching on Spot" data-description="March slowly in place, lifting knees gently. Improves balance and leg strength. Focus on smooth movements. Helps simulate real walking without risk of falling. Perform near support if needed. Repeat for 2-5 minutes. Great for warming up and daily practice. Enhances walking confidence.">
+                        <h3>Slow Marching on Spot</h3>
+                        <p>March in place slowly to develop balance while moving.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Simple Tai Chi Movements" data-description="Practice slow, controlled Tai Chi moves to improve balance and coordination. Enhances focus and body awareness. Great for relaxation too.">
+                        <h3>Simple Tai Chi Movements</h3>
+                        <p>Gentle Tai Chi flow for mindfulness and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Chair Sit to Stand" data-description="Sit comfortably on a chair with your feet flat on the floor. Slowly rise to a standing position without using your hands for support. Stand fully upright, then sit back down in a controlled manner. This strengthens leg muscles and improves balance. Helps train your body for daily activities like getting up from a chair or bed. Start with 5 repetitions and gradually increase as you gain strength. Perform near a stable surface for safety. Essential for improving lower body coordination and preventing falls. Practice daily to build confidence in movement. Great for all ages, especially beginners.">
+                        <h3>Chair Sit to Stand</h3>
+                        <p>Practice rising from a chair to strengthen legs and balance.</p>
+                    </div>
+                    <div class="game-card" data-title="Wall Push-Ups" data-description="Stand near a wall and place palms flat on it. Gently push against the wall and return. Strengthens upper body and improves posture. Keeps body aligned and reduces balance issues. Do 10 repetitions, rest, and repeat.">
+                        <h3>Wall Push-Ups</h3>
+                        <p>Push against wall to improve posture and upper strength.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Standing Weight Shifts" data-description="Stand upright and gently shift weight from one foot to the other. Helps train balance and body control. Focus on smooth, slow shifts. Perform near a wall or chair for safety. Do this for 2-3 minutes.">
+                        <h3>Standing Weight Shifts</h3>
+                        <p>Shift weight side-to-side to train balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Heel Raises" data-description="Hold onto a stable surface. Rise up on toes and slowly lower back down. Strengthens calves and improves standing balance. Start with 10 repetitions. Good for daily practice to enhance lower body strength.">
+                        <h3>Heel Raises</h3>
+                        <p>Lift heels to strengthen calves and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Toe Raises" data-description="Lift toes while keeping heels on the floor. Hold for 5 seconds and release. Improves foot and ankle coordination. Perform 10-12 reps daily. Supports safer walking.">
+                        <h3>Toe Raises</h3>
+                        <p>Raise toes to improve foot coordination.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Marching" data-description="Sit in a chair and march legs up and down slowly. Strengthens hip muscles and improves circulation. Safe for beginners and seniors. Perform for 2-3 minutes.">
+                        <h3>Seated Marching</h3>
+                        <p>March legs while sitting to boost leg strength.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Arm Circles" data-description="Extend arms to the side and make slow circles. Strengthens shoulders and enhances body control. Perform for 30 seconds clockwise and counterclockwise. Keep movements controlled.">
+                        <h3>Arm Circles</h3>
+                        <p>Rotate arms to strengthen shoulders and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Finger to Nose" data-description="Extend arm and touch nose with fingertip, then extend again. Enhances coordination and focus. Alternate hands. Perform 10 times. Sit if needed.">
+                        <h3>Finger to Nose</h3>
+                        <p>Touch nose to improve hand-eye coordination.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Side Bends" data-description="Sit upright and bend sideways, reaching one hand toward the floor. Helps with core strength and body alignment. Perform 10 bends per side. Move slowly and avoid jerking.">
+                        <h3>Seated Side Bends</h3>
+                        <p>Side bends to improve core strength.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Clock Reaches" data-description="Imagine standing in center of a clock. Reach hands to different 'times' (12, 3, 6, 9). Improves reach and coordination. Perform slowly and controlled.">
+                        <h3>Clock Reaches</h3>
+                        <p>Reach to 'clock' times for balance and flexibility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Heel-to-Toe Taps" data-description="Tap heel and then toe on each side while sitting. Improves ankle mobility and coordination. Repeat 10 times per foot. Great for warming up feet.">
+                        <h3>Seated Heel-to-Toe Taps</h3>
+                        <p>Tap heel and toe to strengthen ankle motion.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Side Leg Lifts (Standing)" data-description="Hold a chair for balance, lift one leg to the side and lower. Strengthens hips and improves side stability. Perform 10 lifts per side. Avoid leaning.">
+                        <h3>Side Leg Lifts</h3>
+                        <p>Lift legs sideways to build hip strength.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Knee Extensions (Seated)" data-description="Sit upright and extend one leg forward, then lower. Strengthens thigh muscles. Perform 10 extensions per leg. Great for leg control and seated strength.">
+                        <h3>Knee Extensions</h3>
+                        <p>Extend knees to strengthen thighs while seated.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Standing Hip Marching" data-description="Hold a stable surface and lift knees up alternately as if marching. Improves balance and hip strength. Perform 10-12 steps. Go slow and steady.">
+                        <h3>Standing Hip Marching</h3>
+                        <p>March standing to train hips and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Single Leg Stand (Support)" data-description="Stand holding a chair, lift one foot slightly off the ground. Hold for 10 seconds. Builds balance confidence. Switch legs. Repeat 3-4 times per side.">
+                        <h3>Single Leg Stand</h3>
+                        <p>Stand on one leg to boost balance control.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Finger Walking on Table" data-description="Place hand on a table, 'walk' fingers back and forth. Enhances fine motor skills and wrist coordination. Perform for 1-2 minutes each hand.">
+                        <h3>Finger Walking</h3>
+                        <p>Walk fingers to improve hand coordination.</p>
+                    </div>
+                    <div class="game-card" data-title="Seated Torso Twists" data-description="Sit on a chair, cross arms over chest, and gently twist your torso to the left and right. Improves spine mobility and core strength. Perform 10 twists per side. Breathe steadily.">
+                        <h3>Seated Torso Twists</h3>
+                        <p>Twist body while seated to increase spine flexibility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Ankle Circles (Seated)" data-description="Sit comfortably and lift one foot. Slowly rotate ankle clockwise and counterclockwise. Enhances ankle flexibility and blood flow. Do 10 circles each direction.">
+                        <h3>Ankle Circles</h3>
+                        <p>Rotate ankles to improve flexibility and flow.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Neck Rotations" data-description="Sit or stand upright. Slowly turn your head left and right as if looking over your shoulder. Helps neck mobility and reduces stiffness. Perform 10 times each side.">
+                        <h3>Neck Rotations</h3>
+                        <p>Rotate neck gently for better mobility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Gaze Stabilization (Horizontal)" data-description="Sit and focus on an object in front. Turn head side to side while keeping eyes on the object. Helps improve focus and balance. Do for 1 minute.">
+                        <h3>Gaze Stabilization (Horizontal)</h3>
+                        <p>Focus and turn head to improve balance control.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Gaze Stabilization (Vertical)" data-description="Focus on a fixed point. Nod head up and down slowly, keeping eyes on the point. Enhances gaze stability and balance. Perform for 1 minute.">
+                        <h3>Gaze Stabilization (Vertical)</h3>
+                        <p>Hold gaze and nod for visual stability.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Figure Eight Head Movements" data-description="Sit comfortably and move head in a figure-eight pattern. Helps improve neck flexibility and brain coordination. Move slowly and smoothly.">
+                        <h3>Figure Eight Head Movements</h3>
+                        <p>Draw figure eights with head for control.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Arm Reaches" data-description="Sit and extend arms forward, sideways, and up. Helps shoulder and upper back mobility. Perform 10 reaches in each direction.">
+                        <h3>Seated Arm Reaches</h3>
+                        <p>Reach arms to stretch and improve motion.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Diagonal Arm Reaches" data-description="Reach one arm diagonally across body (e.g., left arm to right side). Improves coordination and flexibility. Alternate sides, 10 times each.">
+                        <h3>Diagonal Arm Reaches</h3>
+                        <p>Reach arms diagonally to enhance mobility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Shoulder Shrugs" data-description="Sit or stand and lift shoulders up to ears, then relax down. Reduces tension and improves upper body control. Perform 10 repetitions.">
+                        <h3>Shoulder Shrugs</h3>
+                        <p>Lift and lower shoulders to relax muscles.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Palm Presses" data-description="Press palms together in front of chest and hold for 5 seconds, then release. Strengthens arms and chest. Repeat 10 times.">
+                        <h3>Palm Presses</h3>
+                        <p>Press palms to build upper body strength.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Standing Calf Stretch" data-description="Stand near wall, step one foot back, and press heel into the floor. Stretches calf muscles. Hold 20 seconds per side. Great for circulation.">
+                        <h3>Standing Calf Stretch</h3>
+                        <p>Stretch calves to improve flexibility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Wall Touches (Standing)" data-description="Stand facing wall, gently reach and tap wall with alternating hands. Improves balance and body awareness. Perform for 1-2 minutes.">
+                        <h3>Wall Touches</h3>
+                        <p>Touch wall to train reaching and balance.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Hip Circles (Standing)" data-description="Stand holding chair, slowly move hips in circles. Improves hip flexibility and lower back movement. Perform 10 circles each way.">
+                        <h3>Hip Circles</h3>
+                        <p>Rotate hips to improve flexibility.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Seated Shoulder Rolls" data-description="Sit tall, roll shoulders backward and forward in circular motion. Relieves tension and improves shoulder movement. Perform 10 rolls each direction.">
+                        <h3>Seated Shoulder Rolls</h3>
+                        <p>Roll shoulders to relax and improve motion.</p>
+                    </div>
+
+                    <div class="game-card" data-title="Tandem Standing (Heel-to-Toe)" data-description="Stand with one foot directly in front of the other, heel to toe. Hold for 10-20 seconds. Improves balance and coordination. Use a wall for support if needed.">
+                        <h3>Tandem Standing</h3>
+                        <p>Stand heel-to-toe to practice balance.</p>
+                    </div>
+
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="stage-section">
+                    <h2 style="color: #007acc;">Stage 2 (Moderate Vertigo)</h2>
+                    <div class="games">
+
+                        <div class="game-card" data-title="Gaze Stabilization" data-description="Focus on a stationary object placed at eye level. Slowly move your head side-to-side and up-down while keeping eyes locked on the object. This helps your brain adjust to head movements and improves visual stability. Avoid quick or jerky head movements. Perform the exercise for 1-2 minutes and repeat 2-3 times daily. Helps reduce dizziness when turning head. Builds confidence in moving head freely. Essential for improving vestibular system response. Helps maintain clear vision during motion. Great for progressing from mild to moderate vertigo control.">
+                            <h3>Gaze Stabilization</h3>
+                            <p>Focus on a stationary object while moving your head.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Walking Exercises" data-description="Walk slowly in a straight line, focusing on a fixed point ahead. Swing arms naturally while walking. Helps improve body coordination and dynamic balance. Start on flat ground and later try on slightly uneven surfaces. Keep head up, avoid looking down. Walk for 5-10 minutes, twice daily. Great for overcoming fear of walking alone. Improves gait stability in vertigo patients. Builds leg strength and endurance. Helps reduce unsteadiness while walking.">
+                            <h3>Walking Exercises</h3>
+                            <p>Walk in straight lines to build dynamic balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Head Tilting" data-description="Practice tilting your head side-to-side and forward-backward while sitting or standing. Perform movements slowly to avoid sudden dizziness. Helps strengthen neck muscles and improve balance response. Perform 10 repetitions in each direction. Focus on steady breathing during exercise. Builds tolerance for head movements that trigger vertigo. Supports vestibular adaptation. Can be done twice a day for better results. Enhances head and body coordination. Helpful for progressing from mild to moderate vertigo recovery.">
+                            <h3>Head Tilting</h3>
+                            <p>More advanced head movements while sitting or standing.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Body Rotation" data-description="Stand straight and slowly rotate your upper body from side-to-side. Keep feet stable on the ground. Move within a comfortable range and avoid sudden turns. Helps adjust balance system to rotational movements. Improves flexibility and core strength. Perform 10 slow rotations in each direction. Great for adapting to daily activities like turning while walking. Helps reduce spinning sensations. Practice daily to reduce moderate vertigo effects. Enhances confidence in moving freely.">
+                            <h3>Body Rotation</h3>
+                            <p>Controlled body spins to improve balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Foot Coordination Training" data-description="Tap toes, lift heels, and roll ankles while seated or standing. Perform slow and controlled foot movements. Builds strength in lower body and improves balance. Start with 10 repetitions and increase gradually. Helps prevent falls by improving foot awareness. Great for challenging balance in moderate vertigo. Strengthens ankle stability. Supports better walking coordination. Easy to practice daily at home. Can also be done with light support like a chair.">
+                            <h3>Foot Coordination Training</h3>
+                            <p>Foot drills to build strength and balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Posture Training" data-description="Stand tall with shoulders aligned and core engaged. Practice standing against a wall to check alignment. Helps improve body posture and prevent dizziness caused by slouching. Focus on even weight distribution between both feet. Hold posture for 1-2 minutes and repeat several times a day. Great for building core strength. Reduces tension in neck and shoulders. Essential for stable walking and standing. Builds awareness of body positioning. Recommended daily for posture improvement.">
+                            <h3>Posture Training</h3>
+                            <p>Maintaining balance through core posture exercises.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Strengthening Exercises" data-description="Perform gentle squats and seated leg raises to strengthen core and legs. Focus on slow controlled movements. Builds muscle support for balance. Start with 5-10 repetitions and increase gradually. Strengthens legs to prevent falls. Supports better standing and walking stability. Can be done with a chair for support. Essential for moving from sitting to standing safely. Helps in reducing moderate dizziness during activities. Practice 3-4 times a week for better results.">
+                            <h3>Strengthening Exercises</h3>
+                            <p>Leg and core strengthening to support balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Standing Balance" data-description="Practice standing on one foot while holding onto a chair for support if needed. Hold for 10-20 seconds on each leg. Improves single-leg balance, critical for walking and climbing stairs. Helps engage core and leg muscles. Prevents falls and improves reaction to imbalance. Start on stable ground before trying uneven surfaces. Perform daily to build stability. Can progress to hands-free standing as balance improves. Strengthens ankle and foot muscles. Builds confidence in upright standing.">
+                            <h3>Standing Balance</h3>
+                            <p>Standing on one foot to challenge stability.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Balance Beam Training" data-description="Walk along a straight line on the floor or use a balance beam. Focus on heel-to-toe steps to challenge your balance. Helps improve focus, coordination, and walking steadiness. Start with a wide stance and narrow as you improve. Hold arms out for better balance. Great for progressing from simple walking to dynamic balance. Builds core and leg strength. Practice for 5-10 minutes daily. Helps reduce unsteadiness while walking in crowds. Essential for outdoor walking confidence.">
+                            <h3>Balance Beam Training</h3>
+                            <p>Walk along a line or beam for balance practice.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Visual Tracking" data-description="Hold a pen or object and move it side-to-side and up-down, following it with your eyes. Avoid moving your head. Improves visual-motor coordination. Strengthens the connection between eye and balance systems. Helps reduce dizziness triggered by fast-moving scenes. Perform for 1-2 minutes, twice daily. Can be done sitting or standing. Great for adapting to moving surroundings. Enhances concentration and visual focus. Supports balance during daily activities like crossing roads.">
+                            <h3>Visual Tracking</h3>
+                            <p>Moving targets to enhance visual-motor coordination.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Stretching and Yoga" data-description="Perform gentle yoga poses like Warrior I and Tree Pose. Focus on slow, steady breathing during each pose. Helps stretch tight muscles and improve flexibility. Supports better posture and balance. Start with simple poses and hold for 10-20 seconds. Great for calming mind and body during vertigo. Improves body awareness and coordination. Practice 10-15 minutes daily. Reduces stiffness that worsens vertigo. Essential for regaining balance confidence.">
+                            <h3>Stretching and Yoga</h3>
+                            <p>Focus on flexibility for better body control.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Neck Mobility Exercises" data-description="Slowly turn your head side-to-side, up-down while sitting straight. Avoid sudden movements. Helps relax neck muscles and improve head movement control. Perform 10 gentle repetitions. Great for reducing neck tension that can worsen vertigo. Enhances vestibular system recovery. Supports better head-body coordination. Helps improve gaze stability during movements. Perform twice daily for better results. Can be combined with posture exercises. Builds confidence in moving head freely.">
+                            <h3>Neck Mobility Exercises</h3>
+                            <p>Controlled neck movements to reduce dizziness.</p>
+                        </div>
+                        <div class="game-card" data-title="Heel-Toe Walking" data-description="Walk in a straight line placing the heel of one foot directly in front of the toes of the other foot. Helps improve balance and foot coordination. Keep arms outstretched if needed for stability. Focus on a point ahead to maintain alignment. Start with 5-10 steps and increase as balance improves. Great for practicing balance needed in narrow pathways. Strengthens leg muscles and ankle control. Can be done near a wall for support. Builds confidence for real-life walking. Helps overcome fear of falling during walking.">
+                            <h3>Heel-Toe Walking</h3>
+                            <p>Walk placing heel to toe to improve balance and control.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Sit to Stand with Eyes Closed" data-description="Sit on a chair and slowly rise to a standing position with eyes closed. Focus on using core and leg muscles to maintain balance. Enhances body’s internal sense of position (proprioception). Helps improve balance when visual input is removed. Start with eyes open if needed and progress to closed eyes. Repeat 8-10 times daily. Great for improving independent standing in vertigo cases. Builds confidence for standing in dark or low-light situations. Strengthens essential muscles for posture control. Reduces reliance on vision for balance.">
+                            <h3>Sit to Stand with Eyes Closed</h3>
+                            <p>Practice standing up without vision to boost body awareness.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Marching with Head Turns" data-description="March in place while gently turning your head left and right. Helps improve balance during combined body and head movements. Strengthens coordination between vision and balance systems. Perform for 1-2 minutes, gradually increasing time. Focus on steady breathing while marching. Avoid quick or jerky head turns. Essential for preparing to walk in busy environments. Builds core and leg strength. Helps reduce dizziness triggered by multitasking. Improves walking stability during everyday activities.">
+                            <h3>Marching with Head Turns</h3>
+                            <p>March in place while turning head to boost balance control.</p>
+                        </div>
+                        <div class="game-card" data-title="Side Stepping" data-description="Stand beside a wall or counter for support. Take slow side steps to the right for 5-10 steps, then return to the left. Helps improve lateral balance and coordination. Strengthens hip and leg muscles essential for walking. Keep head up and eyes forward. Perform 2-3 rounds daily. Great for navigating narrow spaces and crowded places. Builds confidence in moving side-to-side without dizziness. Can be made challenging by reducing hand support over time. Helps prevent falls from sudden sideways movements.">
+                            <h3>Side Stepping</h3>
+                            <p>Step sideways to improve lateral balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Turning in Place" data-description="Stand in place and slowly turn around in a full circle. First clockwise, then counterclockwise. Focus on keeping head and body aligned. Improves balance when rotating body. Great for reducing spinning sensations and disorientation. Perform 2-3 full turns each way. Helps adapt to real-life activities like turning to sit or reach. Builds coordination between head and body movements. Strengthens core muscles. Avoid fast spinning; move within comfort zone. Helps reduce moderate vertigo symptoms when changing directions.">
+                            <h3>Turning in Place</h3>
+                            <p>Controlled turning to adapt to rotational movements.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Eye-Head Coordination" data-description="Hold an object in hand and move it side-to-side while following it with your eyes and head together. Move both smoothly and in sync. Helps synchronize visual and balance systems. Essential for improving stability when moving head during daily activities. Perform 1-2 minutes, twice daily. Start slow and increase speed as you improve. Supports recovery from motion-triggered dizziness. Great for activities like crossing roads or playing sports. Builds visual tracking during motion. Helps reduce visual vertigo.">
+                            <h3>Eye-Head Coordination</h3>
+                            <p>Move head and eyes together to improve coordination.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Reaching Activities" data-description="Stand or sit and practice reaching for objects in different directions (forward, side, overhead). Helps improve balance and coordination when shifting weight. Perform 8-10 reaches in each direction. Essential for daily activities like picking items from shelves. Start slow and progress to faster reaches. Helps reduce dizziness when leaning or reaching. Builds core stability. Great for improving reaction to sudden movements. Encourages dynamic balance control.">
+                            <h3>Reaching Activities</h3>
+                            <p>Reach in various directions to improve dynamic balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Slow Stair Climbing" data-description="Practice climbing stairs slowly, holding onto a railing for safety. Focus on steady breathing and controlled steps. Helps improve coordination, leg strength, and balance. Start with a few steps and increase gradually. Great for real-life tasks like using stairs in public places. Builds confidence in navigating elevation changes. Essential for improving dynamic balance. Reduces fear of falling on stairs. Strengthens legs and ankles. Can be practiced daily.">
+                            <h3>Slow Stair Climbing</h3>
+                            <p>Controlled stair climbing to build confidence and strength.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Weight Shifting" data-description="Stand with feet hip-width apart and slowly shift weight from one foot to the other. Focus on controlled movements and balance. Helps improve body awareness and balance response. Perform 10-15 shifts, 2-3 times daily. Great for improving side-to-side balance. Prepares body for activities like walking on uneven ground. Builds hip and core stability. Reduces risk of falls due to unsteadiness. Can be done with light support for beginners.">
+                            <h3>Weight Shifting</h3>
+                            <p>Shift weight from foot to foot to improve balance.</p>
+                        </div>
+
+                        <div class="game-card" data-title="Clock Yourself" data-description="Imagine standing in the center of a clock. Step to '12 o'clock', then back to center, then '3', '6', '9' and so on. Helps improve balance and coordination. Builds strength in legs and hips. Enhances ability to step in different directions without dizziness. Perform slowly with focus on posture. Repeat 2-3 rounds daily. Great for real-life navigation like avoiding obstacles. Supports dynamic balance. Can be done near a wall for safety.">
+                            <h3>Clock Yourself</h3>
+                            <p>Step around an imaginary clock to improve balance in all directions.</p>
+                        </div>
+                        <div class="game-card" data-title="Side Stepping" data-description="Step sideways along a wall or countertop for support. Helps improve lateral balance and coordination. Keep steps small and controlled. Perform 10-15 steps in each direction. Great for improving sideways walking ability. Strengthens hip and leg muscles. Helps with balance needed in crowded or narrow spaces. Builds confidence moving side-to-side. Practice daily for better stability.">
+                            <h3>Side Stepping</h3>
+                            <p>Step sideways to strengthen lateral balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Weight Shifting" data-description="Stand with feet shoulder-width apart. Shift your weight from side to side and forward-backward. Helps improve control of body center over feet. Perform 10 repetitions each way. Great for adjusting balance during daily movements. Builds awareness of body posture. Strengthens legs and improves flexibility. Can be done near a wall or chair for support. Essential for standing and walking confidence.">
+                            <h3>Weight Shifting</h3>
+                            <p>Shift weight in different directions to improve balance control.</p>
+                        </div>
+                        <div class="game-card" data-title="Clock Reach Exercise" data-description="Stand tall and imagine a clock around you. Reach out with one hand to touch imaginary numbers (e.g., 12, 3, 6, 9). Alternate arms. Helps improve dynamic balance and reach coordination. Perform for 1-2 minutes. Great for functional balance improvement. Strengthens core and upper body. Practice daily to improve reach stability. Enhances confidence in reaching and bending activities.">
+                            <h3>Clock Reach Exercise</h3>
+                            <p>Reach to imaginary clock points to boost dynamic balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Forward Bending and Straightening" data-description="Stand with feet apart. Slowly bend forward as if to touch toes, then slowly straighten up. Avoid fast movements. Helps improve flexibility and postural control. Perform 10 repetitions. Strengthens lower back and legs. Supports balance during bending tasks. Great for posture correction. Practice daily to improve movement confidence.">
+                            <h3>Forward Bending and Straightening</h3>
+                            <p>Controlled bending and standing to improve posture and flexibility.</p>
+                        </div>
+                        <div class="game-card" data-title="Standing with Narrow Base of Support" data-description="Stand with feet close together, arms at sides. Hold for 20-30 seconds. Helps challenge balance in reduced base. Progress to eyes closed if stable. Great for improving balance in tight spaces. Strengthens ankle and core muscles. Builds confidence for standing still in crowds. Practice daily to improve posture stability.">
+                            <h3>Standing with Narrow Base of Support</h3>
+                            <p>Stand with feet together to challenge standing balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Turning in Place" data-description="Stand and slowly turn around in a full circle, both clockwise and counterclockwise. Perform 2-3 turns each way. Helps adapt to rotational movements. Builds balance and coordination. Great for improving response to turning in daily life. Start with slow turns, increase speed as tolerated. Practice near support for safety.">
+                            <h3>Turning in Place</h3>
+                            <p>Slow rotations to improve balance during turns.</p>
+                        </div>
+                        <div class="game-card" data-title="Reaching while Sitting" data-description="Sit in a chair and reach arms forward, side, and overhead. Helps improve balance and coordination while seated. Perform 10-12 reaches in different directions. Great for preparing to move from sitting to standing. Strengthens core and upper body. Builds reaching confidence in daily tasks. Can be done as warm-up for other exercises.">
+                            <h3>Reaching while Sitting</h3>
+                            <p>Reach in different directions to build sitting balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Standing Arm Raises" data-description="Stand and raise arms forward and sideways slowly. Keep body upright. Helps improve balance during upper body movements. Perform 10 repetitions each way. Great for coordination and posture. Strengthens shoulder and upper back muscles. Helps with balance in daily reaching tasks.">
+                            <h3>Standing Arm Raises</h3>
+                            <p>Lift arms in different directions to enhance balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Diagonal Reaching" data-description="Stand and reach across your body to the opposite side, both high and low. Perform 8-10 repetitions each side. Helps improve dynamic balance and twisting movements. Strengthens core and improves flexibility. Great for functional balance tasks like reaching for objects.">
+                            <h3>Diagonal Reaching</h3>
+                            <p>Reach across body to challenge and improve balance.</p>
+                        </div>
+                        <div class="game-card" data-title="Dynamic Stepping" data-description="Step forward and backward with one foot, then switch legs. Perform 10-12 repetitions each leg. Helps improve step coordination and balance. Strengthens leg muscles and improves gait. Great for preparing to walk in daily activities. Can be done near support.">
+                            <h3>Dynamic Stepping</h3>
+                            <p>Step forward and back to build stepping control.</p>
+                        </div>
+                        <div class="game-card" data-title="Marching in Place" data-description="Stand tall and lift one knee at a time as if marching. Perform 20-30 steps. Helps improve dynamic balance and leg strength. Keep upper body upright. Great for preparing to walk confidently. Builds coordination and endurance. Can be done near a wall or chair for support. Helps reduce dizziness during walking. Practice daily for better mobility.">
+                            <h3>Marching in Place</h3>
+                            <p>Lift knees alternately to improve balance and coordination.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="stage-section">
+                        <h2 style="color: #007acc;">Stage 3 (Severe Vertigo)</h2>
+                        <div class="games">
+
+                            <div class="game-card" data-title="Virtual Reality Therapy" data-description="Use simulated environments like VR goggles to help train balance and reduce dizziness. Gradual exposure to moving scenes improves brain adaptation. Helps people who feel dizzy when surrounded by motion. Focus on calming environments at first, like gardens or rooms. Increase complexity as balance improves. Sessions can be short, 5-10 minutes to start. Controlled and safe way to challenge your vestibular system. Builds confidence in dealing with real-world movements. Should be done under professional guidance. Supports faster recovery from severe vertigo.">
+                                <h3>Virtual Reality Therapy</h3>
+                                <p>Simulated environments to safely retrain balance and reduce dizziness.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Balance Training" data-description="Practice standing and shifting weight side-to-side and front-to-back. Helps train your balance system to handle body movements. Focus on slow and controlled movements. You can do this near a wall for safety. Improves brain-body coordination for everyday activities. Essential for reducing fall risk. Can start on stable surfaces and progress to soft ones like mats. Use arms for balance if needed. Strengthens leg and core muscles. Builds confidence in standing and walking.">
+                                <h3>Balance Training</h3>
+                                <p>Improve standing balance through controlled weight shifts.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Standing Balance" data-description="Stand on one leg for a few seconds to improve balance. Try on both left and right legs. Use a chair or wall for support if needed. Helps train stability when body weight is on one side. Essential for walking safely without falling. Start with eyes open, progress to eyes closed for more challenge. Strengthens ankle and leg muscles. Builds core stability. Practiced daily, it reduces unsteadiness. Great for gaining confidence in standing.">
+                                <h3>Standing Balance</h3>
+                                <p>Stand on one leg to train your body’s natural balance system.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Strengthening Exercises" data-description="Focus on strengthening core and leg muscles for better balance. Squats, leg lifts, and bridges are good examples. Stronger muscles help maintain posture and prevent falls. Start with 5-10 reps and build as strength improves. Keep movements slow and controlled. Helps body adjust to sudden balance shifts. Can be done at home or with a therapist. Essential for those with weak muscles causing dizziness. Regular practice improves daily movement safety.">
+                                <h3>Strengthening Exercises</h3>
+                                <p>Build core and leg strength to support better balance and control.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Visual Tracking" data-description="Focus your eyes on a moving object, like a pen or finger. Move it slowly left, right, up, and down. Helps reconnect visual and balance systems. Essential for people whose dizziness is triggered by motion. Improves ability to focus when moving. Repeat for 1-2 minutes. Can be done seated or standing. Start slow and increase speed over time. Builds eye coordination and control. Regular practice reduces motion sensitivity.">
+                                <h3>Visual Tracking</h3>
+                                <p>Track moving objects with your eyes to retrain focus and balance.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Obstacle Avoidance" data-description="Place small objects like pillows or cones on the floor. Practice walking around or over them. Helps train the body to adjust to obstacles in daily life. Essential for fall prevention. Improves coordination and footwork. Start with easy paths and increase difficulty over time. Helps maintain balance while changing direction. Builds confidence in walking safely. Improves reaction time. Do daily for better results.">
+                                <h3>Obstacle Avoidance</h3>
+                                <p>Practice walking around objects to improve coordination and safety.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Side Stepping" data-description="Step side-to-side along a hallway or between walls. Helps strengthen muscles used for lateral balance. Important for preventing sideway falls. Keep steps slow and controlled. Hold onto a wall or railing for safety if needed. Builds coordination between legs and balance system. Helps improve walking in crowded places. Do for 1-2 minutes. Gradually increase speed and step length. Great daily balance practice.">
+                                <h3>Side Stepping</h3>
+                                <p>Step sideways to build balance and coordination for safe walking.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Walking Drills" data-description="Practice walking in straight lines, zigzags, and backward. Challenges your balance and coordination. Helps brain adapt to dynamic movements. Start with slow and controlled steps. Use walls or rails for safety if needed. Great for regaining confidence in walking. Also strengthens leg muscles. Can increase complexity by adding head movements. Helps improve real-world walking skills. Essential for reducing fall risks.">
+                                <h3>Walking Drills</h3>
+                                <p>Practice different walking patterns to boost balance and confidence.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Complex Head Movements" data-description="While walking, turn your head side-to-side and up-down. Helps train the balance system to adjust to combined movements. Essential for moving safely in daily life. Start slowly and increase pace as comfort grows. Helps prevent dizziness when turning suddenly. Builds coordination between head and body. Should be done in safe environments. Improves balance and reduces vertigo symptoms. Practice daily for best results.">
+                                <h3>Complex Head Movements</h3>
+                                <p>Walk while turning head to challenge balance and coordination.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Turning in Place" data-description="Stand and slowly turn in a circle. Start with full circles slowly. Helps improve rotational balance. Essential for people who feel dizzy when turning. Use wall or chair for support if needed. Increases body’s ability to handle spins. Can start with small turns and progress to full rotations. Builds confidence in changing directions. Great for daily practice. Helps prevent falls when turning.">
+                                <h3>Turning in Place</h3>
+                                <p>Turn around slowly to improve rotational stability and balance.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Slow Marching with Head Turns" data-description="March in place while gently turning your head. Helps train body to adjust to combined motion. Builds balance and coordination. Start with small head turns and slow pace. Essential for daily life tasks requiring attention shifts. Gradually increase time and speed. Helps reduce dizziness caused by head movement. Strengthens legs and core muscles. Great for home practice. Improves multitasking while moving.">
+                                <h3>Slow Marching with Head Turns</h3>
+                                <p>March in place while turning head to train balance and motion control.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Dual Task Exercises" data-description="Combine cognitive tasks like counting or spelling with walking. Trains brain to manage thinking and movement together. Essential for real-world multitasking. Helps reduce dizziness during conversations or tasks while moving. Start with simple counting, increase difficulty over time. Builds coordination and attention. Practice in safe environments. Helps prevent accidents in busy settings. Great for challenging and improving balance.">
+                                <h3>Dual Task Exercises</h3>
+                                <p>Walk while doing mental tasks to improve multitasking balance.</p>
+                            </div>
+                            <div class="game-card" data-title="Tai Chi Movements" data-description="Practice slow, controlled Tai Chi exercises to improve balance and focus. Helps calm the mind while training body movements. Excellent for those with severe balance issues. Builds coordination and strength without sudden movements. Focus on posture, deep breathing, and smooth transitions. Helps reconnect mind-body awareness for stability. Can be done in groups or alone. Start with basic movements like weight shifting. Helps prevent falls and improves confidence. Regular practice reduces dizziness and increases mobility.">
+                                <h3>Tai Chi Movements</h3>
+                                <p>Slow, controlled exercises that improve balance, focus, and calmness.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Seated Balance Training" data-description="Practice shifting your weight side-to-side and front-back while seated. Safe way to start balance training if standing is too difficult. Focus on slow, deliberate movements. Helps strengthen core muscles needed for upright posture. Builds coordination between body and brain. Can be done on stable or soft surfaces. Improves sitting stability to reduce dizziness. Great for wheelchair users or those with severe weakness. Increases confidence in body movements. Perfect starting point before progressing to standing exercises.">
+                                <h3>Seated Balance Training</h3>
+                                <p>Shift weight while seated to build core balance safely and gently.</p>
+                            </div>
+
+                            <div class="game-card" data-title="Sensory Integration Tasks" data-description="Use exercises that combine touch, vision, and movement. For example, walking while looking in a mirror, or stepping on different textures. Helps brain learn to process different sensory inputs together. Essential for people whose dizziness is triggered by sensory overload. Builds adaptability in real-world settings. Helps improve balance when environments are busy. Can be customized to challenge specific triggers. Safe way to practice complex balance control. Enhances brain’s coordination between senses and movement. Reduces vertigo symptoms over time.">
+                                <h3>Sensory Integration Tasks</h3>
+                                <p>Combine sensory inputs like touch and vision to enhance balance control.</p>
+                            </div>
+                            <div class="game-card" data-title="Walking with Head Turns" data-description="Walk straight while turning your head side-to-side. Helps train balance when moving. Start slowly, and increase pace as balance improves. Focus on posture and safe environment. Builds coordination and confidence in daily walking.">
+                                <h3>Walking with Head Turns</h3>
+                                <p>Walk and turn head to challenge balance and coordination.</p>
+                            </div>
+
+                            <!-- 12 -->
+                            <div class="game-card" data-title="Heel-to-Toe Walking" data-description="Walk placing one foot directly in front of the other. Helps improve balance and posture. Do near a wall or railing for support. Great for rebuilding walking confidence. Start slowly and focus on alignment.">
+                                <h3>Heel-to-Toe Walking</h3>
+                                <p>Walk in a straight line to improve balance and focus.</p>
+                            </div>
+
+                            <!-- 13 -->
+                            <div class="game-card" data-title="Clockwise & Counterclockwise Turns" data-description="Stand and turn in full circles to both left and right. Helps train rotational stability. Hold onto support if needed. Start slow, increase speed gradually. Great for dizziness caused by turning.">
+                                <h3>Clockwise & Counterclockwise Turns</h3>
+                                <p>Turn in both directions to improve rotational balance.</p>
+                            </div>
+
+                            <!-- 14 -->
+                            <div class="game-card" data-title="Wall Touch for Balance" data-description="Stand near a wall and gently tap it with your hands while shifting weight. Improves stability and spatial awareness. Helps regain confidence in standing. Focus on gentle movements.">
+                                <h3>Wall Touch for Balance</h3>
+                                <p>Shift weight and touch wall to train balance and coordination.</p>
+                            </div>
+
+                            <!-- 15 -->
+                            <div class="game-card" data-title="Backward Walking" data-description="Walk backward slowly. Focus on balance and posture. Use walls for support if needed. Builds reverse coordination and control. Great for balance in dynamic movements.">
+                                <h3>Backward Walking</h3>
+                                <p>Walk backward carefully to challenge and improve balance.</p>
+                            </div>
+
+                            <!-- 16 -->
+                            <div class="game-card" data-title="Standing with Eyes Closed" data-description="Stand still and close your eyes. Increases reliance on inner balance system. Hold onto something if necessary. Start with short durations. Enhances body awareness.">
+                                <h3>Standing with Eyes Closed</h3>
+                                <p>Challenge your balance by removing visual input.</p>
+                            </div>
+
+                            <!-- 17 -->
+                            <div class="game-card" data-title="Weight Shifting in Circles" data-description="Shift body weight in a circular motion. Helps improve overall balance. Start small, increase range over time. Focus on smooth, controlled shifts. Builds lower body strength and coordination.">
+                                <h3>Weight Shifting in Circles</h3>
+                                <p>Move weight in circles to train balance and control.</p>
+                            </div>
+
+                            <!-- 18 -->
+                            <div class="game-card" data-title="Stepping Over Obstacles" data-description="Place objects on the floor and step over them. Builds balance and attention to movement. Focus on high knee lifts. Helps prepare for real-life obstacles.">
+                                <h3>Stepping Over Obstacles</h3>
+                                <p>Step over objects to improve balance and coordination.</p>
+                            </div>
+
+                            <!-- 19 -->
+                            <div class="game-card" data-title="Sideways Walking" data-description="Walk sideways along a wall. Helps train side balance. Keep steps small and controlled. Essential for navigating tight spaces.">
+                                <h3>Sideways Walking</h3>
+                                <p>Walk sideways to train lateral balance and coordination.</p>
+                            </div>
+
+                            <!-- 20 -->
+                            <div class="game-card" data-title="Marching in Place with Arm Swings" data-description="March in place while swinging arms naturally. Builds full-body coordination. Start slow, increase pace over time. Helps connect upper and lower body movements.">
+                                <h3>Marching in Place with Arm Swings</h3>
+                                <p>March and swing arms to improve total body balance.</p>
+                            </div>
+
+                            <!-- 21 -->
+                            <div class="game-card" data-title="Weight Shifting on Foam Surface" data-description="Stand on foam or pillow and shift weight. Increases balance challenge. Builds coordination and leg strength. Helps prepare for uneven surfaces in real life.">
+                                <h3>Weight Shifting on Foam Surface</h3>
+                                <p>Challenge balance by standing on a soft surface.</p>
+                            </div>
+
+                            <!-- 22 -->
+                            <div class="game-card" data-title="Step-ups on Low Platform" data-description="Step onto and off a low platform or step. Builds strength and balance. Focus on controlled movements. Helps improve climbing stairs safely.">
+                                <h3>Step-ups on Low Platform</h3>
+                                <p>Step up and down to build leg strength and balance.</p>
+                            </div>
+
+                            <!-- 23 -->
+                            <div class="game-card" data-title="Lunges with Support" data-description="Perform forward lunges while holding onto a chair or wall. Builds leg strength and balance. Focus on alignment and posture.">
+                                <h3>Lunges with Support</h3>
+                                <p>Do gentle lunges to build strength and stability.</p>
+                            </div>
+
+                            <!-- 24 -->
+                            <div class="game-card" data-title="Catch and Throw a Ball" data-description="Toss a soft ball against a wall and catch it. Enhances hand-eye coordination and balance. Focus on smooth catching. Start slow, increase speed over time.">
+                                <h3>Catch and Throw a Ball</h3>
+                                <p>Play catch to improve coordination and reaction.</p>
+                            </div>
+
+                            <!-- 25 -->
+                            <div class="game-card" data-title="Mirror Walking" data-description="Walk while looking in a mirror. Helps train balance with visual feedback. Focus on posture and smooth walking.">
+                                <h3>Mirror Walking</h3>
+                                <p>Use mirrors to improve balance and posture awareness.</p>
+                            </div>
+
+                            <!-- 26 -->
+                            <div class="game-card" data-title="Soft Surface Walking" data-description="Walk on a soft surface like grass or a mat. Builds adaptability to uneven surfaces. Focus on controlled steps.">
+                                <h3>Soft Surface Walking</h3>
+                                <p>Walk on soft ground to strengthen balance reflexes.</p>
+                            </div>
+
+                            <!-- 27 -->
+                            <div class="game-card" data-title="Turning Around Objects" data-description="Place an object and walk in circles around it. Helps improve turning balance. Start with large circles, reduce as confidence grows.">
+                                <h3>Turning Around Objects</h3>
+                                <p>Circle around objects to improve dynamic balance.</p>
+                            </div>
+
+                            <!-- 28 -->
+                            <div class="game-card" data-title="Seated Weight Transfer with Arms" data-description="Shift weight in seated position while moving arms side-to-side. Builds core strength and coordination. Safe for those unable to stand.">
+                                <h3>Seated Weight Transfer with Arms</h3>
+                                <p>Shift weight while seated to improve core balance.</p>
+                            </div>
+
+                            <!-- 29 -->
+                            <div class="game-card" data-title="Eyes-Fixed Head Rotations" data-description="Keep eyes on a target and turn head side-to-side. Trains eye-head coordination. Helps reduce dizziness with head movement.">
+                                <h3>Eyes-Fixed Head Rotations</h3>
+                                <p>Turn head while focusing eyes to improve stability.</p>
+                            </div>
+
+                            <!-- 30 -->
+                            <div class="game-card" data-title="Sit-to-Stand Repetitions" data-description="Practice standing up from a chair and sitting back down. Builds leg strength and balance. Start with support if needed.">
+                                <h3>Sit-to-Stand Repetitions</h3>
+                                <p>Strengthen legs and balance with sit-to-stand exercises.</p>
+                            </div>
+                            <!-- 31 -->
+                            <div class="game-card" data-title="Standing Weight Shifts with Reaching" data-description="Stand and shift weight from side to side while reaching arms in different directions. Improves dynamic balance and coordination. Start with slow movements.">
+                                <h3>Standing Weight Shifts with Reaching</h3>
+                                <p>Shift weight and reach out to improve balance and flexibility.</p>
+                            </div>
+
+                            <!-- 32 -->
+                            <div class="game-card" data-title="Standing on One Leg with Support" data-description="Stand on one leg while holding a chair or wall. Increases single-leg balance. Hold for a few seconds and switch legs. Helps strengthen ankles and legs.">
+                                <h3>Standing on One Leg with Support</h3>
+                                <p>Balance on one foot with support to strengthen stability.</p>
+                            </div>
+
+                            <!-- 33 -->
+                            <div class="game-card" data-title="Eye Tracking with Head Still" data-description="Move eyes left, right, up, and down while keeping the head still. Trains visual tracking and reduces dizziness. Do slowly and focus on a target.">
+                                <h3>Eye Tracking with Head Still</h3>
+                                <p>Move eyes to improve visual focus without head movement.</p>
+                            </div>
+
+                            <!-- 34 -->
+                            <div class="game-card" data-title="Sit and Toss Ball to Wall" data-description="While seated, toss a soft ball to the wall and catch it. Enhances hand-eye coordination. Great for those not ready to stand.">
+                                <h3>Sit and Toss Ball to Wall</h3>
+                                <p>Seated ball toss for safe coordination practice.</p>
+                            </div>
+
+                            <!-- 35 -->
+                            <div class="game-card" data-title="Seated Trunk Rotations" data-description="Sit upright and rotate your upper body side-to-side. Builds core strength and improves spinal mobility. Helps prepare for standing balance.">
+                                <h3>Seated Trunk Rotations</h3>
+                                <p>Rotate upper body while seated to improve core control.</p>
+                            </div>
+
+                            <!-- 36 -->
+                            <div class="game-card" data-title="Reaching for Objects in Standing" data-description="Place objects at various heights and reach for them while standing. Builds balance and flexibility. Start close and gradually increase distance.">
+                                <h3>Reaching for Objects in Standing</h3>
+                                <p>Reach for items to practice balance and body control.</p>
+                            </div>
+
+                            <!-- 37 -->
+                            <div class="game-card" data-title="Standing with Narrow Base of Support" data-description="Stand with feet close together. Increases balance difficulty. Hold support if needed. Gradually try without support for longer times.">
+                                <h3>Standing with Narrow Base of Support</h3>
+                                <p>Stand with feet together to challenge balance safely.</p>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Overlay -->
+            <div class="overlay" id="overlay"></div>
+
+            <!-- Popup Modal -->
+            <div class="description-box" id="description-box">
+                <h3 id="desc-title"></h3>
+                <p id="desc-text"></p>
+                <button id="close-btn">Done</button>
+            </div>
+
+            <!-- JavaScript -->
+            <script>
+                const cards = document.querySelectorAll('.game-card');
+                const descBox = document.getElementById('description-box');
+                const overlay = document.getElementById('overlay');
+                const descTitle = document.getElementById('desc-title');
+                const descText = document.getElementById('desc-text');
+                const closeBtn = document.getElementById('close-btn');
+
+
+                // Show Popup
+                cards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        const title = card.getAttribute('data-title');
+                        const description = card.getAttribute('data-description');
+                        descTitle.innerText = title;
+                        descText.innerText = description;
+                        descBox.style.display = 'block';
+                        overlay.style.display = 'block';
+                    });
+                });
+
+                // Close Popup
+                [closeBtn, overlay].forEach(el => el.addEventListener('click', () => {
+                    descBox.style.display = 'none';
+                    overlay.style.display = 'none';
+                }));
+            </script>
+
+</body>
+</html
+

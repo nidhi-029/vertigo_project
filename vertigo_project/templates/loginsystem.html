@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Required Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            z-index: 1001;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .restricted {
+            display: none; /* Hide restricted content initially */
+        }
+        /* Modal background */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+        }
+        /* Close button */
+        .close-btn {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to My Website</h1>
+    
+    <!-- Public Section -->
+    <div id="public-section">
+        <p>This is a public page. Please log in to access restricted content.</p>
+        <button onclick="showLogin()">Login</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="container">
+            <span class="close-btn" onclick="closeLogin()">×</span>
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Enter Username">
+            <input type="password" id="password" placeholder="Enter Password">
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <!-- Restricted Content -->
+    <div id="restricted-content" class="restricted">
+        <h2>Restricted Content</h2>
+        <p>Welcome, you are logged in!</p>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check login status on page load
+        window.onload = function () {
+            if (localStorage.getItem("loggedIn")) {
+                showRestricted();
+            } else {
+                showPublic();
+            }
+        };
+
+        function showLogin() {
+            document.getElementById("login-modal").style.display = "block"; // Show modal
+        }
+
+        function closeLogin() {
+            document.getElementById("login-modal").style.display = "none"; // Hide modal
+        }
+
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username && password) {
+                localStorage.setItem("loggedIn", "true");
+                alert("Login Successful!");
+                closeLogin(); // Close modal
+                showRestricted();
+            } else {
+                alert("Please enter valid credentials.");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            alert("Logged out successfully!");
+            showPublic();
+        }
+
+        function showRestricted() {
+            document.getElementById("login-modal").style.display = "none";
+            document.getElementById("public-section").style.display = "none";
+            document.getElementById("restricted-content").style.display = "block";
+        }
+
+        function showPublic() {
+            document.getElementById("restricted-content").style.display = "none";
+            document.getElementById("public-section").style.display = "block";
+            document.getElementById("login-modal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
