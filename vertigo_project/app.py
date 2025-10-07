@@ -173,6 +173,7 @@
 # if __name__ == '__main__':
 #     app.run(debug=True, host='0.0.0.0', port=5000)
 
+
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
 import pandas as pd
 import joblib
@@ -183,12 +184,22 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'your_secure_secret_key_here'
 
-# Load trained model and preprocessing objects
-model = joblib.load('vertigo_hybrid_xgb_lgb_model.pkl')
-label_encoders = joblib.load('label_encoders.pkl')
-scaler = joblib.load('feature_scaler.pkl')
+# ---------------------------
+# Load Model & Preprocessing
+# ---------------------------
+try:
+    model = joblib.load('vertigo_hybrid_xgb_lgb_model.pkl')
+    label_encoders = joblib.load('label_encoders.pkl')
+    scaler = joblib.load('feature_scaler.pkl')
+except Exception as e:
+    print(f"⚠️ Warning: Could not load model files - {e}")
+    model = None
+    label_encoders = {}
+    scaler = None
 
-# Define features
+# ---------------------------
+# Feature Definitions
+# ---------------------------
 feature_columns = [
     'Age', 'Gender', 'Dizziness', 'Lightheadedness', 'Nausea', 'Vomiting', 'Hearing_Loss',
     'Tinnitus', 'Ear_Pain', 'Headache', 'Blurred_Vision', 'Imbalance', 'Spinning_Sensation',
@@ -202,34 +213,44 @@ categorical_cols = [col for col in feature_columns if col != 'Age']
 numerical_cols = ['Age']
 
 vertigo_stages = {
-    "No Vertigo Detected": "Stage 0", "BPPV": "Stage 1",
-    "BPPV (Benign Paroxysmal Positional Vertigo)": "Stage 1",
-    "Vestibular Migraine": "Stage 1", "Vestibular Neuritis": "Stage 2",
-    "Labyrinthitis": "Stage 2", "Other Vertigo Type": "Stage 2",
-    "Ménière's Disease": "Stage 3", "Central Vertigo": "Stage 3"
+    "No Vertigo Detected": "Stage 0", 
+    "BPPV": "Stage 1", 
+    "BPPV (Benign Paroxysmal Positional Vertigo)": "Stage 1", 
+    "Vestibular Migraine": "Stage 1",
+    "Vestibular Neuritis": "Stage 2", 
+    "Labyrinthitis": "Stage 2", 
+    "Other Vertigo Type": "Stage 2",
+    "Ménière's Disease": "Stage 3", 
+    "Central Vertigo": "Stage 3"
 }
 
-# Simulated user database
+# Simulated in-memory user database
 users = {}
 
-# Preprocessing
+# ---------------------------
+# Helper Functions
+# ---------------------------
 def preprocess_user_input(user_data):
     df = pd.DataFrame([user_data])
     for col in categorical_cols:
         if col in df.columns:
             try:
-                le = label_encoders[col]
+                le = label_encoders.get(col)
+                if le is None:
+                    return None, f"Missing label encoder for column: {col}"
                 if df[col].iloc[0] not in le.classes_:
                     return None, f"Invalid value for {col}: '{df[col].iloc[0]}' not recognized"
                 df[col] = le.transform(df[col].astype(str))
             except Exception as e:
-                return None, f"Invalid value for {col}: {str(e)}"
-    if numerical_cols:
+                return None, f"Error in {col}: {str(e)}"
+    if numerical_cols and scaler is not None:
         df[numerical_cols] = scaler.transform(df[numerical_cols])
     return df[feature_columns], None
 
-# Prediction
+
 def predict_vertigo(user_data):
+    if model is None:
+        return None, None, None, "Model not loaded on the server."
     processed_data, error = preprocess_user_input(user_data)
     if error:
         return None, None, None, error
@@ -240,7 +261,9 @@ def predict_vertigo(user_data):
     predicted_stage = vertigo_stages.get(predicted_class, "Unknown Stage")
     return predicted_class, predicted_stage, class_probabilities, None
 
+# ---------------------------
 # Routes
+# ---------------------------
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -268,10 +291,10 @@ def predict():
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        message = request.form['message']
-        print(f"Contact Form: Name={name}, Email={email}, Message={message}")
+        name = request.form.get('name')
+        email = request.form.get('email')
+        message = request.form.get('message')
+        print(f"📩 Contact Form: {name}, {email}, {message}")
         flash('Your response has been recorded. We’ll get back to you soon!', 'success')
         return redirect(url_for('contact'))
     return render_template('contact.html')
@@ -291,16 +314,15 @@ def patient_care():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form.get('username')
+        password = request.form.get('password')
         if username in users and users[username] == password:
             session['logged_in'] = True
             session['username'] = username
             flash('Login successful!', 'success')
             return redirect(url_for('restricted'))
-        else:
-            flash('Invalid username or password.', 'error')
-            return redirect(url_for('login'))
+        flash('Invalid username or password.', 'error')
+        return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/restricted')
@@ -320,10 +342,10 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        fullname = request.form['fullname']
-        email = request.form['email']
-        phone = request.form['phone']
-        password = request.form['password']
+        fullname = request.form.get('fullname')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        password = request.form.get('password')
         if email in users:
             flash('Email already registered!', 'error')
             return redirect(url_for('signup'))
@@ -334,7 +356,7 @@ def signup():
 
 @app.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    email = request.form['email']
+    email = request.form.get('email')
     if email in users:
         flash(f'A password reset link has been sent to {email}.', 'success')
     else:
@@ -345,5 +367,8 @@ def forgot_password():
 def page_not_found(e):
     return render_template('404.html'), 404
 
-# Important for Vercel: expose `app` directly
-# (No app.run() block here!)
+# ⚠️ NOTE: Do NOT use app.run() for Vercel.
+# Vercel automatically detects 'app' and runs it.
+
+# if __name__ == '__main__':
+#     app.run(debug=True, host='0.0.0.0', port=5000)
